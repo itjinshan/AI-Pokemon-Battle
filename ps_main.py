@@ -4,12 +4,12 @@ from random import randint
 from selenium.webdriver.common.action_chains import ActionChains
 import stat_struct
 import pokemon_struct
-import move_structW
+from Move import Move
 # import Pokemon
 
 class PokemonBot():
 	def __init__(self):
-		self.browser = webdriver.Chrome()
+		self.browser = webdriver.Chrome("C:\Program Files\chromedriver_win32\chromedriver.exe")
 
 	def start(self):
 		self.browser.get('https://play.pokemonshowdown.com/')
