@@ -22,7 +22,7 @@ class Pokemon:
         :param parseString: A parsable string containing the information about this pokemon.
 
         This function is designed to take a parsable string of the form:
-        <PokemonName> L<lvl #>
+        [<PokemonName>, L<lvl #>]
         HP: <HP percent>% (<current hp>/<max hp>)
         Ability: <Ability> / Item: <Item>
         Atk <stat> / Def <stat> / SpA <stat> / SpD <stat> / Spe <stat>
