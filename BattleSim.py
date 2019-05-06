@@ -33,12 +33,45 @@ class HumanPlayer(Player):
         print(str(swap_ind)+". Swap the pokemon out:")
         choice = input("Enter a number to select a move:")
         if int(choice) == swap_ind:
-            for pokemon in self.inventory:
+            self.swap_request()
+            return None
+        else:
+            return self.currentPokemon.moveList[choice-1] # return the move we selected from our list
 
     def setCurrentPokemon(self, index):
         self.currentPokemon = self.inventory[index]
+
     def getCurrentPokemon(self):
         return self.currentPokemon
+
+    def life_check(self)->bool:
+        for pokemon in self.inventory:
+            if not pokemon.is_dead():
+                return False
+        return True
+
+    def swap_request(self):
+        index = 1
+        invalid_choice = True
+        while invalid_choice:
+            for pokemon in self.inventor:
+                if not pokemon.is_dead():
+                    print(str(index)+". "+pokemon.name)
+                index += 1
+            choice = input("Enter a number to select a pokemon:")
+            selected_pok = self.inventory[choice-1]
+            if not selected_pok.is_dead():
+                invalid_choice = False
+                self.setCurrentPokemon(choice-1)
+
+    def requestBackup(self)->bool:
+        if self.life_check():
+            print("Your inventory is depleted")
+            return False
+        print("Your selected pokemon has fainted in battle, please select another: ")
+        self.swap_request()
+        return True
+
 
 class GameSession:
     def __init__(self, player1: Player, player2: Player):
