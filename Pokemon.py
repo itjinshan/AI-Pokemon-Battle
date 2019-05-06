@@ -102,5 +102,7 @@ class Pokemon:
         dmg = (((2*self.lvl/5 + 2)*move.power*self.stat["Attack"]/other.stat["Defense"])/50 + 2) * GLOBAL_MOD
         other.HP -= dmg
 
-a = Pokemon(1)
+    def is_dead(self):
+        return self.HP <= 0
+a = Pokemon(ID=1)
 print("done.")

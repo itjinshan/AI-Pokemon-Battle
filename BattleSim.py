@@ -51,12 +51,12 @@ class GameSession:
         self.player2.initalizeGame()
 
         while self.isGameOver():
-            if self.player1.getCurrentPokemon().isDead():
+            if self.player1.getCurrentPokemon().is_dead():
                 if not self.player1.requestBackup():
                     self.winner = self.player2
                     return self.player2
 
-            if self.player2.getCurrentPokemon().isDead():
+            if self.player2.getCurrentPokemon().is_dead():
                 if not self.player2.requestBackup():
                     self.winner = self.player1
                     return self.player1
@@ -66,12 +66,12 @@ class GameSession:
 
             if ((move1.priority > move2.priority) or
                 (move1.priority == move2.priority and self.player1.stat["Speed"] > self.player2.stat["Speed"])):
-                self.player1.getCurrentPokemon().Damge(self.player2.getCurrentPokemon(), move1)
-                if not self.player2.getCurrentPokemon().isDead():
+                self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+                if not self.player2.getCurrentPokemon().is_dead():
                     self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
             else:
-                self.player1.getCurrentPokemon().Damge(self.player2.getCurrentPokemon(), move1)
-                if not self.player2.getCurrentPokemon().isDead():
+                self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+                if not self.player2.getCurrentPokemon().is_dead():
                     self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
 
         return self.getVictor()
