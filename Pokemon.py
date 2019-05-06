@@ -45,6 +45,7 @@ class Pokemon:
         lines = p_str.splitlines()
         tokens = lines[0].replace("u'", "").replace("'", "").replace("[","").replace("]","").split(", ")
         self.data_dict = getPokemonFromAPI(Name=tokens[0].lower())
+        self.name = tokens[0].lower()
         self.lvl = int(tokens[1].replace("L", ""))
         tokens = lines[1].split(" ")
         hpLine = tokens[2].replace("(", "").replace(")", "").split("/")
@@ -75,6 +76,7 @@ class Pokemon:
         elif Name is not None:
             self.data_dict = getPokemonFromAPI(Name=Name)
         self.lvl = 0
+        self.name = self.data_dict["name"]
         # We save the data_dict so that we can easily access relent information about the pokemon in the future.
         # Next, we must initialize our pokemon's stats, for the sake of simplicity, these will be stored as ints
         self.stat = {}

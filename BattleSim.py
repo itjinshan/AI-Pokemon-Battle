@@ -1,4 +1,4 @@
-import pokemon_struct
+import Pokemon
 class Player:
     def __init__(self, name, inventory):
         self.name = name
@@ -29,8 +29,12 @@ class HumanPlayer(Player):
         for move in self.currentPokemon.moveList:
             print(str(index)+". "+move.name)
             index += 1
-        print(str(index)+". ")
+        swap_ind = index
+        print(str(swap_ind)+". Swap the pokemon out:")
         choice = input("Enter a number to select a move:")
+        if int(choice) == swap_ind:
+            for pokemon in self.inventory:
+
     def setCurrentPokemon(self, index):
         self.currentPokemon = self.inventory[index]
     def getCurrentPokemon(self):
@@ -42,22 +46,23 @@ class GameSession:
         self.player2 = player2
         self.winner = None
     def isGameOver(self)->bool:
-        pass
+        for pok in
+
     def getVictor(self):
-        if self.winner is not None:
-            return self.winner
+        return self.winner
+
     def runGame(self):
         self.player1.initalizeGame()
         self.player2.initalizeGame()
 
         while self.isGameOver():
             if self.player1.getCurrentPokemon().is_dead():
-                if not self.player1.requestBackup():
+                if not self.player1.requestBackup():  # if the opponent has no more pokemon to pull
                     self.winner = self.player2
                     return self.player2
 
             if self.player2.getCurrentPokemon().is_dead():
-                if not self.player2.requestBackup():
+                if not self.player2.requestBackup():  # if the opponent has no more pokemon to pull
                     self.winner = self.player1
                     return self.player1
 
@@ -73,5 +78,3 @@ class GameSession:
                 self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
                 if not self.player2.getCurrentPokemon().is_dead():
                     self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
-
-        return self.getVictor()
