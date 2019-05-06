@@ -8,16 +8,16 @@ class Move:
 	spAttack = False
 
 	def __init__(self, name, basePower, moveType, accuracy, pp, attack, spAttack):
-		this.name = name
-		this.basePower = basePower
-		this.moveType = moveType
-		this.accuracy = accuracy
-		this.pp = pp
-		this.attack = attack
-		this.spAttack = spAttack
+		self.name = name
+		self.basePower = basePower
+		self.moveType = moveType
+		self.accuracy = accuracy
+		self.pp = pp
+		self.attack = attack
+		self.spAttack = spAttack
 
-	def decrementPP(isPressure):
-		if isPressure == false:
-			this.pp -= 1
+	def decrementPP(self, isPressure):
+		if isPressure == False:
+			self.pp -= 1
 		else:
-			this.pp -= 2
+			self.pp -= 2
