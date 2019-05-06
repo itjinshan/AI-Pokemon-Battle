@@ -1,5 +1,7 @@
 import Pokemon
 class Player:
+    session = None
+    log:str = ""
     def __init__(self, name, inventory):
         self.name = name
         self.inventory = inventory
@@ -7,10 +9,12 @@ class Player:
         pass # it may also apply an internal adjustments, such as taking a pokemon out of battle
     def getCurrentPokemon(self):
         pass
-    def initalizeGame(self):
-        pass
+    def initalizeGame(self, session):
+        self.session = session
     def requestBackup(self): # this will return true or false depending on whether the player can continue
         pass
+    def append_to_log(self, str):
+        self.log += str
 
 class HumanPlayer(Player):
     def __init__(self, name, inventory):
@@ -23,6 +27,7 @@ class HumanPlayer(Player):
         """
         super(name, inventory)
         self.setCurrentPokemon(0)
+
     def getTurn(self):
         print("Possible Moves: ")
         index = 1
@@ -72,14 +77,22 @@ class HumanPlayer(Player):
         self.swap_request()
         return True
 
+    def initalizeGame(self, session):
+        super.initalizeGame(session)
+        self.swap_request() # request our current pokemon
+
 
 class GameSession:
+
     def __init__(self, player1: Player, player2: Player):
         self.player1 = player1
         self.player2 = player2
+        self.log = ""
+        self.lastCmd = ""
         self.winner = None
+
     def isGameOver(self)->bool:
-        for pok in
+        pass
 
     def getVictor(self):
         return self.winner

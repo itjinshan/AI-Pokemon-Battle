@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/BattleSim.py" line="75" />
+    <bookmark url="file://$PROJECT_DIR$/BattleSim.py" line="121" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ebd2902e-0c88-4704-b885-fc6bc2e4922a" name="Default Changelist" comment="I've updated this class to pull the following information from the API:&#10;priority, power points (pp), power, type, priority, accuracy&#10;&#10;Moves can be pulled from the API via their Name or a URL.&#10;&#10;keep in mind that not all of these moves have the same parameters, so &#10;they ma come back with null attributes.">
+    <list default="true" id="ebd2902e-0c88-4704-b885-fc6bc2e4922a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BattleSim.py" beforeDir="false" afterPath="$PROJECT_DIR$/BattleSim.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pokemonAI.py" beforeDir="false" afterPath="$PROJECT_DIR$/pokemonAI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pokemon.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pokemon.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,44 +41,47 @@
         <counts>
           <entry key="Python Console" value="248" />
           <entry key="dummy" value="19" />
-          <entry key="py" value="8048" />
-          <entry key="txt" value="561" />
+          <entry key="py" value="10095" />
+          <entry key="txt" value="755" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="580" />
-          <entry key="Python" value="8296" />
+          <entry key="PLAIN_TEXT" value="774" />
+          <entry key="Python" value="10343" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Pokemon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-578">
-              <caret line="32" column="20" lean-forward="true" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
+            <state relative-caret-position="582">
+              <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+                <marker date="1557170284845" expanded="true" signature="445:446" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BattleSim.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+            <state relative-caret-position="221">
+              <caret line="82" selection-start-line="82" selection-end-line="82" />
               <folding>
-                <marker date="1557166878965" expanded="true" signature="28:33" ph="..." />
-                <marker date="1557166878965" expanded="true" signature="386:404" ph="..." />
-                <marker date="1557166878965" expanded="true" signature="547:1479" ph="..." />
-                <marker date="1557166878965" expanded="true" signature="1357:1414" ph="..." />
-                <marker date="1557166878965" expanded="true" signature="1497:1502" ph="..." />
-                <marker date="1557166878965" expanded="true" signature="1676:1701" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="47:52" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="64:69" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="431:467" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="462:467" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="668:2805" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="1592:1645" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="2823:2829" ph="..." />
+                <marker date="1557169760071" expanded="true" signature="3052:3071" ph="..." />
               </folding>
             </state>
           </provider>
@@ -132,8 +135,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pokemonAI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="76" column="43" lean-forward="true" selection-start-line="76" selection-start-column="43" selection-end-line="76" selection-end-column="43" />
+            <state relative-caret-position="204">
+              <caret line="12" column="39" lean-forward="true" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -141,8 +144,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Move.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
+            <state relative-caret-position="289">
+              <caret line="17" column="41" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="41" />
               <folding>
                 <marker date="1556997444774" expanded="true" signature="406:411" ph="..." />
               </folding>
@@ -184,9 +187,9 @@
         <option value="$PROJECT_DIR$/ABTree.py" />
         <option value="$PROJECT_DIR$/ps_main.py" />
         <option value="$PROJECT_DIR$/Move.py" />
-        <option value="$PROJECT_DIR$/Pokemon.py" />
         <option value="$PROJECT_DIR$/pokemonAI.py" />
         <option value="$PROJECT_DIR$/BattleSim.py" />
+        <option value="$PROJECT_DIR$/Pokemon.py" />
       </list>
     </option>
   </component>
@@ -347,7 +350,21 @@
       <option name="project" value="LOCAL" />
       <updated>1556912890727</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="More changes to the pokemon class, battle infrastructure, and minor changes to the pokemon AI class">
+      <created>1557167032504</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1557167032504</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added more features to the human player class for the battle infrastructure">
+      <created>1557168203493</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1557168203493</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -390,7 +407,9 @@
     <MESSAGE value="added stats" />
     <MESSAGE value="still setting up pulling data from api, added move class which is a simple container for move information" />
     <MESSAGE value="I've updated this class to pull the following information from the API:&#10;priority, power points (pp), power, type, priority, accuracy&#10;&#10;Moves can be pulled from the API via their Name or a URL.&#10;&#10;keep in mind that not all of these moves have the same parameters, so &#10;they ma come back with null attributes." />
-    <option name="LAST_COMMIT_MESSAGE" value="I've updated this class to pull the following information from the API:&#10;priority, power points (pp), power, type, priority, accuracy&#10;&#10;Moves can be pulled from the API via their Name or a URL.&#10;&#10;keep in mind that not all of these moves have the same parameters, so &#10;they ma come back with null attributes." />
+    <MESSAGE value="More changes to the pokemon class, battle infrastructure, and minor changes to the pokemon AI class" />
+    <MESSAGE value="Added more features to the human player class for the battle infrastructure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more features to the human player class for the battle infrastructure" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/abc.py">
@@ -476,16 +495,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Move.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="50" selection-start-line="22" selection-start-column="50" selection-end-line="22" selection-end-column="50" />
-          <folding>
-            <marker date="1556997444774" expanded="true" signature="406:411" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/move_struct.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -505,32 +514,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pokemonAI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="76" column="43" lean-forward="true" selection-start-line="76" selection-start-column="43" selection-end-line="76" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Pokemon.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-578">
-          <caret line="32" column="20" lean-forward="true" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="12" column="39" lean-forward="true" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BattleSim.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+        <state relative-caret-position="221">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
           <folding>
-            <marker date="1557166878965" expanded="true" signature="28:33" ph="..." />
-            <marker date="1557166878965" expanded="true" signature="386:404" ph="..." />
-            <marker date="1557166878965" expanded="true" signature="547:1479" ph="..." />
-            <marker date="1557166878965" expanded="true" signature="1357:1414" ph="..." />
-            <marker date="1557166878965" expanded="true" signature="1497:1502" ph="..." />
-            <marker date="1557166878965" expanded="true" signature="1676:1701" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="47:52" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="64:69" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="431:467" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="462:467" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="668:2805" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="1592:1645" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="2823:2829" ph="..." />
+            <marker date="1557169760071" expanded="true" signature="3052:3071" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Move.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="41" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="41" />
+          <folding>
+            <marker date="1556997444774" expanded="true" signature="406:411" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pokemon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="582">
+          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <marker date="1557170284845" expanded="true" signature="445:446" ph="..." />
           </folding>
         </state>
       </provider>
