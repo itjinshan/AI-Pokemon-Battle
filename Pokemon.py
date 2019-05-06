@@ -81,13 +81,13 @@ class Pokemon:
         # Next, we must initialize our pokemon's stats, for the sake of simplicity, these will be stored as ints
         self.stat = {}
         # 0 - Speed, 1 - special defense, 2 - special-attack, 3 - defense, 4 - attack, 5 - HP
-        self.stat["Attack"] = self.data_dict["stats"][4]["base_stat"]
-        self.stat["Defense"] = self.data_dict["stats"][3]["base_stat"]
-        self.stat["HP"] = self.data_dict["stats"][5]["base_stat"]
-        self.stat["Speed"] = self.data_dict["stats"][0]["base_stat"]
-        self.stat["sp_Defense"] = self.data_dict["stats"][1]["base_stat"]
-        self.stat["sp_Attack"] = self.data_dict["stats"][2]["base_stat"]
-        self.HP = self.stat["HP"]  # We initialize our running health with the base hp stat
+        self.stat["Attack"] = int(self.data_dict["stats"][4]["base_stat"])
+        self.stat["Defense"] = int(self.data_dict["stats"][3]["base_stat"])
+        self.stat["HP"] = int(self.data_dict["stats"][5]["base_stat"])
+        self.stat["Speed"] = int(self.data_dict["stats"][0]["base_stat"])
+        self.stat["sp_Defense"] = int(self.data_dict["stats"][1]["base_stat"])
+        self.stat["sp_Attack"] = int(self.data_dict["stats"][2]["base_stat"])
+        self.HP = int(self.stat["HP"])  # We initialize our running health with the base hp stat
         self.moveList = list()
         '''
         for x in self.data_dict["moves"]: # right now, we pull all possible learned moves from the api
@@ -108,5 +108,19 @@ class Pokemon:
 
     def is_dead(self):
         return self.HP <= 0
+
+    def get_info_str(self):
+        r_str = "[u'"+self.name+"', u'L"+str(self.lvl)+"']\n"
+        r_str +="HP: "+str((self.HP/self.stat["HP"])*100)+"% ("+str(self.HP)+"/"+str(self.stat["HP"])+")\n"
+        r_str +="Ability:"
+        r_str +=("Atk "+str(self.stat["Attack"])+" / Def "+str(self.stat["Defense"]) +
+                 " / SpA "+str(self.stat["sp_Attack"])+" / SpD "+str(self.stat["sp_Defense"]) +
+                 " / Spe "+str(self.stat["Speed"])+"\n")
+        for move in self.moveList:
+            r_str+= "• "+move.name+"\n"
+        return r_str
+
+def getRandomPokemon() -> Pokemon:
+    pass
 a = Pokemon(ID=1)
 print("done.")
