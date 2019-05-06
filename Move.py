@@ -13,15 +13,21 @@ def getMoveFromAPI(ID:int=None, Name:str=None, URL:str=None) -> dict:
     return url_d.json()
 
 class Move:
-    def __init__(self, URL:str = None, Name:str = None):
-        self.data_dict = getMoveFromAPI(Name=Name, URL=URL)
+    def __init__(self, ID:int=None, URL:str = None, Name:str = None):
+        self.data_dict = getMoveFromAPI(ID=ID, Name=Name, URL=URL)
+        self.name = self.data_dict["name"]
         self.power = self.data_dict["power"]
         self.accuracy = self.data_dict["accuracy"]
         self.power_points = self.data_dict["pp"]
         self.type = self.data_dict["type"]["name"]
         self.priority = self.data_dict["priority"]
+        self.meta_data = self.data_dict["meta"]
+
+    def applyEffects(self, target):
+        pass
 
 d = Move(Name="flamethrower")
+print(d.name)
 print(d.accuracy)
 print(d.power)
 print(d.power_points)

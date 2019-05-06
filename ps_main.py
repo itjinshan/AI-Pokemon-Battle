@@ -17,7 +17,7 @@ class PokemonBot():
 		button = self.browser.find_element_by_css_selector('.button.mainmenu1.big')
 		button.click()
 		time.sleep(2)
-		self.browser.find_element_by_name('username').send_keys("zynynzpach3")
+		self.browser.find_element_by_name('username').send_keys("zynynzpach7")
 		time.sleep(1)
 		self.browser.find_element_by_xpath("/html/body/div[4]/div/form/p[2]/button[1]").click()
 		time.sleep(1)
