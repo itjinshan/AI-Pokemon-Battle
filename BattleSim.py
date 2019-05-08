@@ -28,24 +28,37 @@ class Player:
     session = None
     log:str = ""
     opponent = None
+
     def __init__(self, name, inventory):
         self.name = name
         self.inventory = inventory
-    def getTurn(self): # this will return some move that will be applyed during play
-        pass # it may also apply an internal adjustments, such as taking a pokemon out of battle
-    def getCurrentPokemon(self):
-        pass
-    def initalizeGame(self, session):
+
+    def initalizeGame(self, session)->Move:
         self.session = session
         if self.session.player1 is self:
             self.opponent = self.session.player2
         else:
             self.opponent = self.session.player1
-    def requestBackup(self): # this will return true or false depending on whether the player can continue
-        pass
+
     def append_to_log(self, str):
         self.log += str
-    def swap_request(self)->Move.Swap:
+
+    def life_check(self)->bool:
+        for pokemon in self.inventory:
+            if not pokemon.is_dead():
+                return False
+        return True
+
+    def getTurn(self) -> Move.Move:  # this will return some move that will be applyed during play
+        pass  # it may also apply an internal adjustments, such as taking a pokemon out of battle
+
+    def getCurrentPokemon(self) -> Pokemon.Pokemon:
+        pass
+
+    def requestBackup(self) -> Move:  # this will return true or false depending on whether the player can continue
+        pass
+
+    def swap_request(self) -> Move.Swap:
         pass
 
 class HumanPlayer(Player):
@@ -80,12 +93,6 @@ class HumanPlayer(Player):
     def getCurrentPokemon(self)->Pokemon.Pokemon:
         return self.currentPokemon
 
-    def life_check(self)->bool:
-        for pokemon in self.inventory:
-            if not pokemon.is_dead():
-                return False
-        return True
-
     def swap_request(self)->Move.Swap:
         old_pokemon = self.currentPokemon
         index = 1
@@ -102,20 +109,47 @@ class HumanPlayer(Player):
                 self.setCurrentPokemon(choice-1)
         return Move.Swap(old_pokemon, self.currentPokemon)
 
-    def requestBackup(self)->bool:
+    def requestBackup(self)->Move:
         if self.life_check():
             print("Your inventory is depleted")
-            return False
+            return None
         print("Your selected pokemon has fainted in battle, please select another: ")
-        self.swap_request()
-        return True
+        return self.swap_request()
 
-    def initalizeGame(self, session):
+    def initalizeGame(self, session)->Move:
         super.initalizeGame(session)
         return self.swap_request() # request our current pokemon
 
+import random
 class RandomPlayer(Player):
-    pass
+    def __init__(self, name):
+        super(name, [Pokemon.getRandomPokemon() for i in range(6)])
+        self.currentPokemon = None
+    def initializeGame(self, session):
+        super.initalizeGame(session)
+        self.currentPokemon = random.choice(self.inventory)
+
+    def getTurn(self) -> Move.Move:
+        number_of_moves = len(self.getCurrentPokemon().moveList)
+        choice = random.randint(1+number_of_moves)
+        if choice == 1+number_of_moves:
+            return self.swap_request()
+        return self.getCurrentPokemon().moveList[choice]
+
+    def getCurrentPokemon(self) -> Pokemon.Pokemon:
+        return self.currentPokemon
+
+    def requestBackup(self) -> Move:
+        if self.life_check():
+            return None
+        return self.swap_request()
+
+    def swap_request(self) -> Move.Swap:
+        old_pokemon = self.getCurrentPokemon()
+        living = [pok for pok in self.inventory if not pok.is_dead()]
+        new_pokemon = random.choice(living)
+        self.currentPokemon = new_pokemon
+        return Move.Swap(old_pokemon, new_pokemon)
 
 
 class GameSession:
@@ -146,16 +180,16 @@ class GameSession:
         elif attacker is self.player2:
             self.player1.append_to_log(self.get_move_string(attacker, move, False))
             self.player2.append_to_log(self.get_move_string(attacker, move, True))
-        else:
-            pass
+        self.log += self.get_move_string((attacker, move, False))
 
     def notify_damage(self, victim, dmg):
         if victim is self.player1:
-            self.player1.append_to_log("("+victim.getCurrentPokemon() + " lost "+str(dmg)+"% of its health!)")
-            self.player2.append_to_log("(The opposing "+victim.getCurrentPokemon() + " lost "+str(dmg)+"% of its health!)")
+            self.player1.append_to_log("("+victim.getCurrentPokemon() + " lost "+str(dmg)+"% of its health!)\n")
+            self.player2.append_to_log("(The opposing "+victim.getCurrentPokemon() + " lost "+str(dmg)+"% of its health!)\n")
         else:
-            self.player2.append_to_log("(" + victim.getCurrentPokemon() + " lost " + str(dmg) + "% of its health!)")
-            self.player1.append_to_log("(The opposing " + victim.getCurrentPokemon() + " lost " + str(dmg) + "% of its health!)")
+            self.player2.append_to_log("(" + victim.getCurrentPokemon() + " lost " + str(dmg) + "% of its health!)\n")
+            self.player1.append_to_log("(The opposing " + victim.getCurrentPokemon() + " lost " + str(dmg) + "% of its health!)\n")
+        self.log += "(" + victim.getCurrentPokemon() + " lost " + str(dmg) + "% of its health!)\n"
 
     def __init__(self, player1: Player, player2: Player):
         self.player1 = player1
@@ -165,7 +199,7 @@ class GameSession:
         self.winner = None
 
     def isGameOver(self)->bool:
-        pass
+        return self.player1.life_check() or self.player2.life_check() # if either player's pokemon are all dead
 
     def getVictor(self):
         return self.winner
@@ -176,14 +210,18 @@ class GameSession:
 
         while self.isGameOver():
             if self.player1.getCurrentPokemon().is_dead():
-                if not self.player1.requestBackup():  # if the opponent has no more pokemon to pull
+                result = self.player1.requestBackup()
+                if result is None:  # if the opponent has no more pokemon to pull
                     self.winner = self.player2
                     return self.player2
+                self.notify_move(self.player1, result)
 
             if self.player2.getCurrentPokemon().is_dead():
-                if not self.player2.requestBackup():  # if the opponent has no more pokemon to pull
+                result = self.player2.requestBackup()
+                if result is None:  # if the opponent has no more pokemon to pull
                     self.winner = self.player1
                     return self.player1
+                self.notify_move(self.player2, result)
 
             move1 = self.player1.getTurn()
             move2 = self.player2.getTurn()
@@ -215,3 +253,4 @@ class GameSession:
 
                 if self.player2.getCurrentPokemon().is_dead():
                     self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
+
