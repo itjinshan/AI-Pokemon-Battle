@@ -193,12 +193,12 @@ class GameSession:
         if dmg == 0.0:
             return ""
         if victim is self.player1:
-            self.player1.append_to_log("("+victim.getCurrentPokemon().name + " lost "+str("%.2f" % round(dmg,2))+"% of its health!)\n")
-            self.player2.append_to_log("(The opposing "+victim.getCurrentPokemon().name + " lost "+str("%.2f" % round(dmg,2))+"% of its health!)\n")
+            self.player1.append_to_log("("+victim.getCurrentPokemon().name + " lost "+str("%.1f" % round(dmg,1))+"% of its health!)\n")
+            self.player2.append_to_log("(The opposing "+victim.getCurrentPokemon().name + " lost "+str("%.1f" % round(dmg,1))+"% of its health!)\n")
         else:
-            self.player2.append_to_log("(" + victim.getCurrentPokemon().name + " lost " + str("%.2f" % round(dmg,2)) + "% of its health!)\n")
-            self.player1.append_to_log("(The opposing " + victim.getCurrentPokemon().name + " lost " + str("%.2f" % round(dmg,2)) + "% of its health!)\n")
-        self.log += "(" + victim.getCurrentPokemon().name + " lost " + str("%.2f" % round(dmg,2)) + "% of its health!)\n"
+            self.player2.append_to_log("(" + victim.getCurrentPokemon().name + " lost " + str("%.1f" % round(dmg,1)) + "% of its health!)\n")
+            self.player1.append_to_log("(The opposing " + victim.getCurrentPokemon().name + " lost " + str("%.1f" % round(dmg,1)) + "% of its health!)\n")
+        self.log += "(" + victim.getCurrentPokemon().name + " lost " + str("%.1f" % round(dmg,1)) + "% of its health!)\n"
 
     def notify_turn(self, num):
         self.player1.append_to_log("Turn "+str(num)+"\n")
