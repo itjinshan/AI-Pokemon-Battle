@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/BattleSim.py" line="123" />
+    <bookmark url="file://$PROJECT_DIR$/BattleSim.py" line="197" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ebd2902e-0c88-4704-b885-fc6bc2e4922a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BattleSim.py" beforeDir="false" afterPath="$PROJECT_DIR$/BattleSim.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Move.py" beforeDir="false" afterPath="$PROJECT_DIR$/Move.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pokemon.py" beforeDir="false" afterPath="$PROJECT_DIR$/Pokemon.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,61 +28,68 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="gitignore" value="2" />
           <entry key="py" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="PLAIN_TEXT" value="2" />
           <entry key="Python" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="305" />
-          <entry key="dummy" value="19" />
-          <entry key="py" value="10761" />
-          <entry key="txt" value="755" />
+          <entry key="dummy" value="49" />
+          <entry key="py" value="14425" />
+          <entry key="txt" value="875" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="774" />
-          <entry key="Python" value="11066" />
+          <entry key="PLAIN_TEXT" value="924" />
+          <entry key="Python" value="14730" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Pokemon.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="122" column="20" lean-forward="true" selection-start-line="122" selection-start-column="20" selection-end-line="122" selection-end-column="20" />
+            <state relative-caret-position="238">
+              <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <marker date="1557335882781" expanded="true" signature="513:514" ph="..." />
-                <marker date="1557335882781" expanded="true" signature="5479:5480" ph="..." />
+                <marker date="1557340427513" expanded="true" signature="513:514" ph="..." />
+                <marker date="1557340427513" expanded="true" signature="5532:5533" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BattleSim.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+            <state relative-caret-position="459">
+              <caret line="145" column="38" lean-forward="true" selection-start-line="145" selection-start-column="38" selection-end-line="145" selection-end-column="38" />
               <folding>
-                <marker date="1557334927582" expanded="true" signature="47:52" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="64:69" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="431:467" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="462:467" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="668:2842" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="1592:1645" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="2831:2842" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="2860:2866" ph="..." />
-                <marker date="1557334927582" expanded="true" signature="3089:3108" ph="..." />
+                <element signature="e#0#14#0" expanded="true" />
+                <marker date="1557347990019" expanded="true" signature="470:471" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="503:508" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="540:545" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="907:1096" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="1091:1096" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="1322:1323" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="1349:3644" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="3632:3644" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="3727:4777" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="4820:4829" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="5304:5840" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="5836:5840" ph="..." />
+                <marker date="1557347990019" expanded="true" signature="6063:6082" ph="..." />
               </folding>
             </state>
           </provider>
@@ -147,11 +152,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Move.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="19" lean-forward="true" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+            <state relative-caret-position="409">
+              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
               <folding>
-                <marker date="1557335770596" expanded="true" signature="455:473" ph="..." />
-                <marker date="1557335770596" expanded="true" signature="468:473" ph="..." />
+                <marker date="1557340427816" expanded="true" signature="455:473" ph="..." />
+                <marker date="1557340427816" expanded="true" signature="468:473" ph="..." />
+                <marker date="1557340427816" expanded="true" signature="1258:1340" ph="..." />
               </folding>
             </state>
           </provider>
@@ -182,15 +188,15 @@
         <option value="$PROJECT_DIR$/ABTree.py" />
         <option value="$PROJECT_DIR$/ps_main.py" />
         <option value="$PROJECT_DIR$/pokemonAI.py" />
-        <option value="$PROJECT_DIR$/BattleSim.py" />
         <option value="$PROJECT_DIR$/Move.py" />
         <option value="$PROJECT_DIR$/Pokemon.py" />
+        <option value="$PROJECT_DIR$/BattleSim.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="165" />
-    <option name="y" value="17" />
+    <option name="x" value="142" />
+    <option name="y" value="41" />
     <option name="width" value="1727" />
     <option name="height" value="948" />
   </component>
@@ -359,7 +365,21 @@
       <option name="project" value="LOCAL" />
       <updated>1557168203493</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="More work on the chat log system for battling.">
+      <created>1557340714173</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1557340714173</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added additional methods and classes for the chat log system.">
+      <created>1557340731625</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1557340731625</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -372,7 +392,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="165" y="17" width="1727" height="948" extended-state="0" />
+    <frame x="142" y="41" width="1727" height="948" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28063944" />
@@ -380,7 +400,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32923833" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3280098" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3280098" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -404,7 +424,9 @@
     <MESSAGE value="I've updated this class to pull the following information from the API:&#10;priority, power points (pp), power, type, priority, accuracy&#10;&#10;Moves can be pulled from the API via their Name or a URL.&#10;&#10;keep in mind that not all of these moves have the same parameters, so &#10;they ma come back with null attributes." />
     <MESSAGE value="More changes to the pokemon class, battle infrastructure, and minor changes to the pokemon AI class" />
     <MESSAGE value="Added more features to the human player class for the battle infrastructure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added more features to the human player class for the battle infrastructure" />
+    <MESSAGE value="More work on the chat log system for battling." />
+    <MESSAGE value="Added additional methods and classes for the chat log system." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added additional methods and classes for the chat log system." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/abc.py">
@@ -514,43 +536,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BattleSim.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
-          <folding>
-            <marker date="1557334927582" expanded="true" signature="47:52" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="64:69" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="431:467" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="462:467" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="668:2842" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="1592:1645" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="2831:2842" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="2860:2866" ph="..." />
-            <marker date="1557334927582" expanded="true" signature="3089:3108" ph="..." />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Move.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="19" lean-forward="true" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+        <state relative-caret-position="409">
+          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
           <folding>
-            <marker date="1557335770596" expanded="true" signature="455:473" ph="..." />
-            <marker date="1557335770596" expanded="true" signature="468:473" ph="..." />
+            <marker date="1557340427816" expanded="true" signature="455:473" ph="..." />
+            <marker date="1557340427816" expanded="true" signature="468:473" ph="..." />
+            <marker date="1557340427816" expanded="true" signature="1258:1340" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Pokemon.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="122" column="20" lean-forward="true" selection-start-line="122" selection-start-column="20" selection-end-line="122" selection-end-column="20" />
+        <state relative-caret-position="238">
+          <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-            <marker date="1557335882781" expanded="true" signature="513:514" ph="..." />
-            <marker date="1557335882781" expanded="true" signature="5479:5480" ph="..." />
+            <marker date="1557340427513" expanded="true" signature="513:514" ph="..." />
+            <marker date="1557340427513" expanded="true" signature="5532:5533" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BattleSim.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="145" column="38" lean-forward="true" selection-start-line="145" selection-start-column="38" selection-end-line="145" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1557347990019" expanded="true" signature="470:471" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="503:508" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="540:545" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="907:1096" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="1091:1096" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="1322:1323" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="1349:3644" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="3632:3644" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="3727:4777" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="4820:4829" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="5304:5840" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="5836:5840" ph="..." />
+            <marker date="1557347990019" expanded="true" signature="6063:6082" ph="..." />
           </folding>
         </state>
       </provider>

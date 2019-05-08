@@ -27,6 +27,7 @@ Misc:
 class Player:
     session = None
     log:str = ""
+    opponent = None
     def __init__(self, name, inventory):
         self.name = name
         self.inventory = inventory
@@ -36,6 +37,10 @@ class Player:
         pass
     def initalizeGame(self, session):
         self.session = session
+        if self.session.player1 is self:
+            self.opponent = self.session.player2
+        else:
+            self.opponent = self.session.player1
     def requestBackup(self): # this will return true or false depending on whether the player can continue
         pass
     def append_to_log(self, str):
@@ -114,22 +119,43 @@ class RandomPlayer(Player):
 
 
 class GameSession:
-    def get_move_string(self, player1:Player, player2:Player, move:Move.Move, is_friendly:bool)->str:
-        if is_friendly:
-            pass
+    def get_move_string(self, attacker, move, is_friendly)->str:
+        r_str = ""
+        if is_friendly: # we are the attacker
+            if isinstance(move, Move.Swap): # we just swapped something out
+                #r_str += attacker.name+" withdrew "+move.swaped_out+"\n"
+                r_str += "Go! "+move.swaped_in+"!\n"
+            elif isinstance(move, Move.Faint): # i've got bad news
+                r_str += move.pokemon.name + " fainted!\n"
+            else: # we've attacked our target
+                r_str += attacker.getCurrentPokemon().name+" uses "+move.name+"!\n"
+        else: # we are the reciever
+            if isinstance(move, Move.Swap): # they just swapped something out
+                r_str += attacker.name+" withdrew "+move.swaped_out+"!\n"
+                r_str += attacker.name+" sent out "+move.swaped_in+"!\n"
+            elif isinstance(move, Move.Faint): # i've got good news
+                r_str += move.pokemon.name+" fainted!\n"
+            else:
+                r_str += "The opposing "+attacker.getCurrentPokemon().name+" uses "+move.name+"!\n"
+        return r_str
+
+    def notify_move(self, attacker, move):
+        if attacker is self.player1:
+            self.player1.append_to_log(self.get_move_string(attacker, move, True))
+            self.player2.append_to_log(self.get_move_string(attacker, move, False))
+        elif attacker is self.player2:
+            self.player1.append_to_log(self.get_move_string(attacker, move, False))
+            self.player2.append_to_log(self.get_move_string(attacker, move, True))
         else:
             pass
 
-    def notify_move(self, target:Player, player1, player2, move):
-        if target is None:
-            self.log += self.get_move_string(player1, player2, move)
+    def notify_damage(self, victim, dmg):
+        if victim is self.player1:
+            self.player1.append_to_log("("+victim.getCurrentPokemon() + " lost "+str(dmg)+"% of its health!)")
+            self.player2.append_to_log("(The opposing "+victim.getCurrentPokemon() + " lost "+str(dmg)+"% of its health!)")
         else:
-            if target is player1:
-                player1.append_to_log(self.get_move_string(player1, player2, move, False))
-                player2.append_to_log(self.get_move_string(player1, player2, move, True))
-            else:
-                player1.append_to_log(self.get_move_string(player1, player2, move, True))
-                player2.append_to_log(self.get_move_string(player1, player2, move, False))
+            self.player2.append_to_log("(" + victim.getCurrentPokemon() + " lost " + str(dmg) + "% of its health!)")
+            self.player1.append_to_log("(The opposing " + victim.getCurrentPokemon() + " lost " + str(dmg) + "% of its health!)")
 
     def __init__(self, player1: Player, player2: Player):
         self.player1 = player1
@@ -145,8 +171,8 @@ class GameSession:
         return self.winner
 
     def runGame(self):
-        self.player1.initalizeGame()
-        self.player2.initalizeGame()
+        self.player1.initalizeGame(self)
+        self.player2.initalizeGame(self)
 
         while self.isGameOver():
             if self.player1.getCurrentPokemon().is_dead():
@@ -164,15 +190,28 @@ class GameSession:
 
             if ((move1.priority > move2.priority) or
                 (move1.priority == move2.priority and self.player1.stat["Speed"] > self.player2.stat["Speed"])):
-                self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+                self.notify_move(self.player1, move1)
+                dmg = self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+                self.notify_damage(self.player2, dmg)
+                if not self.player2.getCurrentPokemon().is_dead():
+                    self.notify_move(self.player2, move2)
+                    dmg = self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
+                    self.notify_damage(self.player1, dmg)
+                else:
+                    self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
 
-                if not self.player2.getCurrentPokemon().is_dead():
-                    self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
-                else:
-                    pass
+                if self.player1.getCurrentPokemon().is_dead():
+                    self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))
             else:
-                self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
-                if not self.player2.getCurrentPokemon().is_dead():
-                    self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
+                self.notify_move(self.player2, move2)
+                dmg = self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
+                self.notify_damage(self.player1, dmg)
+                if not self.player1.getCurrentPokemon().is_dead():
+                    self.notify_move(self.player1, move1)
+                    dmg = self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+                    self.notify_damage(self.player2, dmg)
                 else:
-                    pass
+                    self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))
+
+                if self.player2.getCurrentPokemon().is_dead():
+                    self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
