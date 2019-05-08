@@ -1,7 +1,9 @@
 import requests
+import random
 from Move import Move
 GLOBAL_MOD = 1.0
-
+MAX_MOVES_PER_POKEMON = 4
+MAX_CHOOSEABLE_POKEMON = 807
 def getPokemonFromAPI(ID:int=None, Name:str=None, URL:str = None) -> dict:
     url = ""
     if ID is not None:
@@ -94,8 +96,8 @@ class Pokemon:
             if x["version_group_details"][0]["level_learned_at"] <= self.lvl:
                 self.moveList.append(Move(URL=x["move"]["url"]))'''
 
-    def add_move(self, parseString:str=None, ID:int=None, Name:str=None, URL:str=None):
-        self.moveList.append(Move(Name=Name, ID=ID, URL=URL))
+    def add_move(self, ParseString:str=None, ID:int=None, Name:str=None, URL:str=None):
+        self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
 
     def do_damage(self, other, move):
         # the modifier would be something this:
@@ -112,7 +114,7 @@ class Pokemon:
     def get_info_str(self):
         r_str = "[u'"+self.name+"', u'L"+str(self.lvl)+"']\n"
         r_str +="HP: "+str((self.HP/self.stat["HP"])*100)+"% ("+str(self.HP)+"/"+str(self.stat["HP"])+")\n"
-        r_str +="Ability:"
+        r_str +="Ability:\n"
         r_str +=("Atk "+str(self.stat["Attack"])+" / Def "+str(self.stat["Defense"]) +
                  " / SpA "+str(self.stat["sp_Attack"])+" / SpD "+str(self.stat["sp_Defense"]) +
                  " / Spe "+str(self.stat["Speed"])+"\n")
@@ -120,7 +122,17 @@ class Pokemon:
             r_str+= "• "+move.name+"\n"
         return r_str
 
+def assignRandomMoves(pokemon):
+    possible_move_list = pokemon.data_dict["moves"]
+    for i in range(min(MAX_MOVES_PER_POKEMON, len(possible_move_list))):
+        move = random.choice(possible_move_list)
+        pokemon.add_move(URL=move["move"]["url"])
+
 def getRandomPokemon() -> Pokemon:
-    pass
-a = Pokemon(ID=1)
+    n_poke = Pokemon(ID=random.randint(1, MAX_CHOOSEABLE_POKEMON))
+    assignRandomMoves(n_poke)
+    return n_poke
+
+poke = getRandomPokemon()
+print(poke.get_info_str())
 print("done.")
