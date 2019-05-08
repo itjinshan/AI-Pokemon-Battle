@@ -1,4 +1,29 @@
 import Pokemon
+import Move
+
+'''
+Different Types of log statements:
+
+Deployment:
+Go! <pokemon>!
+<player name> sent out <new pokemon>
+Withdrawl:
+<player name> withdrew <pokemon>
+Death:
+<pokemon> fainted!
+
+<pokemon> used <move name>!
+The opposing <name of other player's pokemon> used <move name>!
+OPTIONAL: It's super effective!
+
+(<our pokemon's name> lost <base hp % loss>% of its health!)
+(The opposing <pokemon name> lost <base hp % loss>% of its health!)
+
+Misc:
+
+
+'''
+
 class Player:
     session = None
     log:str = ""
@@ -15,6 +40,8 @@ class Player:
         pass
     def append_to_log(self, str):
         self.log += str
+    def swap_request(self)->Move.Swap:
+        pass
 
 class HumanPlayer(Player):
     def __init__(self, name, inventory):
@@ -26,7 +53,7 @@ class HumanPlayer(Player):
         The current pokemon will be selected as the first pokemon in the deck for now.
         """
         super(name, inventory)
-        self.setCurrentPokemon(0)
+        self.currentPokemon = None
 
     def getTurn(self):
         print("Possible Moves: ")
@@ -38,15 +65,14 @@ class HumanPlayer(Player):
         print(str(swap_ind)+". Swap the pokemon out:")
         choice = input("Enter a number to select a move:")
         if int(choice) == swap_ind:
-            self.swap_request()
-            return None
+            return self.swap_request()
         else:
             return self.currentPokemon.moveList[choice-1] # return the move we selected from our list
 
     def setCurrentPokemon(self, index):
         self.currentPokemon = self.inventory[index]
 
-    def getCurrentPokemon(self):
+    def getCurrentPokemon(self)->Pokemon.Pokemon:
         return self.currentPokemon
 
     def life_check(self)->bool:
@@ -55,7 +81,8 @@ class HumanPlayer(Player):
                 return False
         return True
 
-    def swap_request(self):
+    def swap_request(self)->Move.Swap:
+        old_pokemon = self.currentPokemon
         index = 1
         invalid_choice = True
         while invalid_choice:
@@ -68,6 +95,7 @@ class HumanPlayer(Player):
             if not selected_pok.is_dead():
                 invalid_choice = False
                 self.setCurrentPokemon(choice-1)
+        return Move.Swap(old_pokemon, self.currentPokemon)
 
     def requestBackup(self)->bool:
         if self.life_check():
@@ -79,12 +107,29 @@ class HumanPlayer(Player):
 
     def initalizeGame(self, session):
         super.initalizeGame(session)
-        self.swap_request() # request our current pokemon
+        return self.swap_request() # request our current pokemon
 
 class RandomPlayer(Player):
     pass
 
+
 class GameSession:
+    def get_move_string(self, player1:Player, player2:Player, move:Move.Move, is_friendly:bool)->str:
+        if is_friendly:
+            pass
+        else:
+            pass
+
+    def notify_move(self, target:Player, player1, player2, move):
+        if target is None:
+            self.log += self.get_move_string(player1, player2, move)
+        else:
+            if target is player1:
+                player1.append_to_log(self.get_move_string(player1, player2, move, False))
+                player2.append_to_log(self.get_move_string(player1, player2, move, True))
+            else:
+                player1.append_to_log(self.get_move_string(player1, player2, move, True))
+                player2.append_to_log(self.get_move_string(player1, player2, move, False))
 
     def __init__(self, player1: Player, player2: Player):
         self.player1 = player1
@@ -120,9 +165,14 @@ class GameSession:
             if ((move1.priority > move2.priority) or
                 (move1.priority == move2.priority and self.player1.stat["Speed"] > self.player2.stat["Speed"])):
                 self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+
                 if not self.player2.getCurrentPokemon().is_dead():
                     self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
+                else:
+                    pass
             else:
                 self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
                 if not self.player2.getCurrentPokemon().is_dead():
                     self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
+                else:
+                    pass
