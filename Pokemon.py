@@ -1,6 +1,8 @@
 import requests
 import random
 from Move import Move
+from Move import Swap
+from Move import Faint
 GLOBAL_MOD = 1.0
 MAX_MOVES_PER_POKEMON = 4
 MAX_CHOOSEABLE_POKEMON = 807
@@ -102,10 +104,20 @@ class Pokemon:
     def do_damage(self, other, move)->float:
         # the modifier would be something this:
         #
-        if move is None:
+
+        if (move is None
+            or isinstance(move, Swap)
+            or isinstance(move, Faint)
+            or move.power is None):
             return 0.0
         move.applyEffects(other)
-        dmg = (((2*self.lvl/5 + 2)*move.power*self.stat["Attack"]/other.stat["Defense"])/50 + 2) * GLOBAL_MOD
+        dmg = 0.0
+        if move.is_special:
+            dmg = (((2 * self.lvl / 5 + 2) * move.power * self.stat["sp_Attack"]
+                    / other.stat["sp_Defense"]) / 50 + 2) * GLOBAL_MOD
+        else:
+            dmg = (((2*self.lvl/5 + 2) * move.power * self.stat["Attack"]
+                    / other.stat["Defense"]) / 50 + 2) * GLOBAL_MOD
         other.HP -= dmg
         return (dmg/other.stat["HP"])*100
 
@@ -132,8 +144,10 @@ def assignRandomMoves(pokemon):
 def getRandomPokemon() -> Pokemon:
     n_poke = Pokemon(ID=random.randint(1, MAX_CHOOSEABLE_POKEMON))
     assignRandomMoves(n_poke)
+    n_poke.lvl = random.randint(1, 100)
     return n_poke
-
+'''
 poke = getRandomPokemon()
 print(poke.get_info_str())
 print("done.")
+'''

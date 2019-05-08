@@ -25,6 +25,7 @@ class Move:
             self.type = self.data_dict["type"]["name"]
             self.priority = self.data_dict["priority"]
             self.meta_data = self.data_dict["meta"]
+            self.is_special = self.data_dict["damage_class"]["name"] == "special"
 
     def applyEffects(self, target):
         pass
@@ -32,16 +33,16 @@ class Move:
 
 class Swap(Move):
     def __init__(self, swaped_out, swaped_in):
-        super()
+        self.priority = 999
         self.swaped_out = swaped_out
         self.swaped_in = swaped_in
 
 
 class Faint(Move):
     def __init__(self, pokemon):
-        super()
         self.pokemon = pokemon
 
+'''
 d = Move(Name="flamethrower")
 print(d.name)
 print(d.accuracy)
@@ -49,4 +50,4 @@ print(d.power)
 print(d.power_points)
 print(d.type)
 print(d.priority)
-
+'''
