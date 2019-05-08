@@ -37,6 +37,8 @@ class Player:
 
     def initalizeGame(self, session)->Move:
         self.session = session
+        for pokemon in self.inventory:
+            self.append_to_log(pokemon.get_info_str())
         if self.session.player1 is self:
             self.opponent = self.session.player2
         else:
@@ -131,6 +133,7 @@ class RandomPlayer(Player):
     def initalizeGame(self, session):
         super(RandomPlayer, self).initalizeGame(session)
         self.currentPokemon = random.choice(self.inventory)
+        return Move.Swap(None, self.getCurrentPokemon())
 
     def getTurn(self) -> Move.Move:
         number_of_moves = len(self.getCurrentPokemon().moveList)
@@ -168,7 +171,8 @@ class GameSession:
                 r_str += attacker.getCurrentPokemon().name+" uses "+move.name+"!\n"
         else: # we are the reciever
             if isinstance(move, Move.Swap): # they just swapped something out
-                r_str += attacker.name+" withdrew "+move.swaped_out.name+"!\n"
+                if not (move.swaped_out is None or move.swaped_out.is_dead):
+                    r_str += attacker.name+" withdrew "+move.swaped_out.name+"!\n"
                 r_str += attacker.name+" sent out "+move.swaped_in.name+"!\n"
             elif isinstance(move, Move.Faint): # i've got good news
                 r_str += move.pokemon.name+" fainted!\n"
@@ -212,8 +216,8 @@ class GameSession:
         return self.winner
 
     def runGame(self):
-        self.player1.initalizeGame(self)
-        self.player2.initalizeGame(self)
+        self.notify_move(self.player1, self.player1.initalizeGame(self))
+        self.notify_move(self.player2, self.player2.initalizeGame(self))
         turn = 1
         while True:
             self.notify_turn(turn)
@@ -270,6 +274,6 @@ gs = GameSession(RandomPlayer("p1"), RandomPlayer("p2"))
 print("Ready")
 print("Commencing Fight")
 victor = gs.runGame()
-print(gs.log)
+print(gs.player1.log)
 print("Fight Complete")
 print(victor.name+" is the winner")
