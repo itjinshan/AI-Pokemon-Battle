@@ -13,7 +13,9 @@ def getMoveFromAPI(ID:int=None, Name:str=None, URL:str=None) -> dict:
     return url_d.json()
 
 class Move:
-    def __init__(self, ID:int=None, URL:str = None, Name:str = None):
+    def parse_data_from_string(self, p_str:str):
+        pass
+    def __init__(self, ParseString:str=None, ID:int=None, URL:str = None, Name:str = None):
         self.data_dict = getMoveFromAPI(ID=ID, Name=Name, URL=URL)
         self.name = self.data_dict["name"]
         self.power = self.data_dict["power"]
