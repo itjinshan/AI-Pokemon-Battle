@@ -81,6 +81,8 @@ class HumanPlayer(Player):
         super.initalizeGame(session)
         self.swap_request() # request our current pokemon
 
+class RandomPlayer(Player):
+    pass
 
 class GameSession:
 
