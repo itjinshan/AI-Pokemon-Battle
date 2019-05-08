@@ -189,12 +189,12 @@ class GameSession:
         if dmg == 0.0:
             return ""
         if victim is self.player1:
-            self.player1.append_to_log("("+victim.getCurrentPokemon().name + " lost "+str(dmg)+"% of its health!)\n")
-            self.player2.append_to_log("(The opposing "+victim.getCurrentPokemon().name + " lost "+str(dmg)+"% of its health!)\n")
+            self.player1.append_to_log("("+victim.getCurrentPokemon().name + " lost "+str("%.2f" % round(dmg,2))+"% of its health!)\n")
+            self.player2.append_to_log("(The opposing "+victim.getCurrentPokemon().name + " lost "+str("%.2f" % round(dmg,2))+"% of its health!)\n")
         else:
-            self.player2.append_to_log("(" + victim.getCurrentPokemon().name + " lost " + str(dmg) + "% of its health!)\n")
-            self.player1.append_to_log("(The opposing " + victim.getCurrentPokemon().name + " lost " + str(dmg) + "% of its health!)\n")
-        self.log += "(" + victim.getCurrentPokemon().name + " lost " + str(dmg) + "% of its health!)\n"
+            self.player2.append_to_log("(" + victim.getCurrentPokemon().name + " lost " + str("%.2f" % round(dmg,2)) + "% of its health!)\n")
+            self.player1.append_to_log("(The opposing " + victim.getCurrentPokemon().name + " lost " + str("%.2f" % round(dmg,2)) + "% of its health!)\n")
+        self.log += "(" + victim.getCurrentPokemon().name + " lost " + str("%.2f" % round(dmg,2)) + "% of its health!)\n"
 
     def notify_turn(self, num):
         self.player1.append_to_log("Turn "+str(num)+"\n")
@@ -208,9 +208,6 @@ class GameSession:
         self.lastCmd = ""
         self.winner = None
 
-    def isGameOver(self)->bool:
-        return self.player1.life_check() or self.player2.life_check() # if either player's pokemon are all dead
-
     def getVictor(self):
         return self.winner
 
@@ -218,7 +215,7 @@ class GameSession:
         self.player1.initalizeGame(self)
         self.player2.initalizeGame(self)
         turn = 1
-        while not self.isGameOver():
+        while True:
             self.notify_turn(turn)
             if self.player1.getCurrentPokemon().is_dead():
                 result = self.player1.requestBackup()
@@ -266,7 +263,7 @@ class GameSession:
                 if self.player2.getCurrentPokemon().is_dead():
                     self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
             turn += 1
-
+        return self.getVictor()
 
 print("Initializing Session")
 gs = GameSession(RandomPlayer("p1"), RandomPlayer("p2"))
