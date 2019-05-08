@@ -99,14 +99,15 @@ class Pokemon:
     def add_move(self, ParseString:str=None, ID:int=None, Name:str=None, URL:str=None):
         self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
 
-    def do_damage(self, other, move):
+    def do_damage(self, other, move)->float:
         # the modifier would be something this:
         #
         if move is None:
-            return
+            return 0.0
         move.applyEffects(other)
         dmg = (((2*self.lvl/5 + 2)*move.power*self.stat["Attack"]/other.stat["Defense"])/50 + 2) * GLOBAL_MOD
         other.HP -= dmg
+        return (dmg/other.stat["HP"])*100
 
     def is_dead(self):
         return self.HP <= 0

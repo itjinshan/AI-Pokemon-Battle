@@ -17,16 +17,30 @@ class Move:
         pass
     def __init__(self, ParseString:str=None, ID:int=None, URL:str = None, Name:str = None):
         self.data_dict = getMoveFromAPI(ID=ID, Name=Name, URL=URL)
-        self.name = self.data_dict["name"]
-        self.power = self.data_dict["power"]
-        self.accuracy = self.data_dict["accuracy"]
-        self.power_points = self.data_dict["pp"]
-        self.type = self.data_dict["type"]["name"]
-        self.priority = self.data_dict["priority"]
-        self.meta_data = self.data_dict["meta"]
+        if self.data_dict is not None:
+            self.name = self.data_dict["name"]
+            self.power = self.data_dict["power"]
+            self.accuracy = self.data_dict["accuracy"]
+            self.power_points = self.data_dict["pp"]
+            self.type = self.data_dict["type"]["name"]
+            self.priority = self.data_dict["priority"]
+            self.meta_data = self.data_dict["meta"]
 
     def applyEffects(self, target):
         pass
+
+
+class Swap(Move):
+    def __init__(self, swaped_out, swaped_in):
+        super()
+        self.swaped_out = swaped_out
+        self.swaped_in = swaped_in
+
+
+class Faint(Move):
+    def __init__(self, pokemon):
+        super()
+        self.pokemon = pokemon
 
 d = Move(Name="flamethrower")
 print(d.name)
