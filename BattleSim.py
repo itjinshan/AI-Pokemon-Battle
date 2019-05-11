@@ -127,7 +127,7 @@ class HumanPlayer(Player):
 import random
 class RandomPlayer(Player):
     def __init__(self, name):
-        super(RandomPlayer, self).__init__(name, [Pokemon.getRandomPokemon() for i in range(6)])
+        super(RandomPlayer, self).__init__(name, [Pokemon.get_random_pokemon() for i in range(6)])
         self.currentPokemon = None
 
     def initalizeGame(self, session):
@@ -159,6 +159,9 @@ class RandomPlayer(Player):
 
 
 class GameSession:
+    def performTurn(self):
+        pass
+
     def get_move_string(self, attacker, move, is_friendly)->str:
         r_str = ""
         if is_friendly: # we are the attacker
@@ -188,6 +191,9 @@ class GameSession:
             self.player1.append_to_log(self.get_move_string(attacker, move, False))
             self.player2.append_to_log(self.get_move_string(attacker, move, True))
         self.log += self.get_move_string(attacker, move, False)
+
+    def notify_effect(self, attacker, effect):
+        pass
 
     def notify_damage(self, victim, dmg):
         if dmg == 0.0:

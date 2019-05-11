@@ -26,8 +26,9 @@ class Move:
             self.priority = self.data_dict["priority"]
             self.meta_data = self.data_dict["meta"]
             self.is_special = self.data_dict["damage_class"]["name"] == "special"
+            self.stat_change = self.data_dict["stat_changes"]
 
-    def applyEffects(self, target):
+    def apply_effect(self, target):
         pass
 
 
