@@ -43,7 +43,9 @@ class Move:
                 else:
                     target.update_stat_stage(translation_table[entry["stat"]["name"]], entry["change"])
 
-        if random.randint(0,100) <= int(self.data_dict["effect_chance"]) and "ailment" in self.meta_data: # if our effect actually fires:
+        if ("ailment" in self.meta_data and
+           self.data_dict["effect_chance"] is not None and
+           random.randint(0, 100) <= int(self.data_dict["effect_chance"])):
             effect = Effects.get_ailment(self.meta_data["ailment"]["name"])
             if self.data_dict["target"]["name"] is "user":
                 user.apply_effect(effect)
