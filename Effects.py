@@ -1,3 +1,7 @@
+
+def get_ailment(ailment):
+    pass
+
 class Effect:
     pass
 

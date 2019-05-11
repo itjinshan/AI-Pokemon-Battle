@@ -10,6 +10,9 @@ PKM_IV = 31
 PKM_EV = 85
 STAT_STAGE_COEFFICIENTS = {-6:2/8, -5:2/7, -4:2/6, -3:2/5, -2:2/4, -1:2/3, 0:2/2,
                            1:3/2, 2:4/2, 3:5/2, 4:6/2, 5:7/2, 6:8/2}
+
+TYPE_MOD_TABLE = dict() # TODO: add a lookup table for this
+
 def get_pokemon_from_api(ID:int=None, Name:str=None, URL:str = None) -> dict:
     url = ""
     if ID is not None:
@@ -24,7 +27,7 @@ def get_pokemon_from_api(ID:int=None, Name:str=None, URL:str = None) -> dict:
     return url_d.json()
 
 class Pokemon:
-    def parse_data_from_string(self, p_str:str):
+    def parse_data_from_string(self, p_str: str):
         '''
 
         :param p_str: the parsable string, see info below
@@ -90,7 +93,7 @@ class Pokemon:
         self.calculate_stats(1)
         self.HP = int(self.stat["HP"])
         self.moveList = list()
-
+        self.effect_list = list()
 
     def add_move(self, ParseString:str=None, ID:int=None, Name:str=None, URL:str=None):
         self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
@@ -103,7 +106,7 @@ class Pokemon:
         self.stat_stages[stat] = min(max(self.stat_stages[stat], -6), 6) # clamp the value between 6 and -6
 
     def reset_stat_stage(self):
-
+        self.stat_stages = dict((key, 0) for key in self.stat.keys())
 
     def do_damage(self, other, move)->float:
         # the modifier would be something this:
@@ -117,11 +120,11 @@ class Pokemon:
         move.apply_effect(other)
         dmg = 0.0
         if move.is_special:
-            dmg = (((2 * self.lvl / 5 + 2) * move.power * self.stat["sp_Attack"]
-                    / other.stat["sp_Defense"]) / 50 + 2) * GLOBAL_MOD
+            dmg = (((2 * self.lvl / 5 + 2) * move.power * self.get_stat("sp_Attack")
+                    / other.get_stat("sp_Defense")) / 50 + 2) * GLOBAL_MOD
         else:
-            dmg = (((2*self.lvl/5 + 2) * move.power * self.stat["Attack"]
-                    / other.stat["Defense"]) / 50 + 2) * GLOBAL_MOD
+            dmg = (((2*self.lvl/5 + 2) * move.power * self.get_stat("Attack")
+                    / other.get_stat("Defense")) / 50 + 2) * GLOBAL_MOD
         other.HP -= dmg
         return (dmg/other.stat["HP"])*100
 

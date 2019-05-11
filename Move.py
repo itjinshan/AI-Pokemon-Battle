@@ -1,4 +1,6 @@
 import requests
+import random
+import Effects
 def getMoveFromAPI(ID:int=None, Name:str=None, URL:str=None) -> dict:
     url = ""
     if ID is not None:
@@ -28,8 +30,28 @@ class Move:
             self.is_special = self.data_dict["damage_class"]["name"] == "special"
             self.stat_change = self.data_dict["stat_changes"]
 
-    def apply_effect(self, target):
-        pass
+    def apply_effect(self, user, target):
+        translation_table = {"attack":"Attack", "defense":"Defense", "special-attack":"sp_Attack",
+                             "special-defense":"sp_Defense", "speed":"Speed"}
+
+        user.HP += user.get_stat("HP")*(int(self.meta_data["hp"])/100)
+
+        for entry in self.stat_change:
+            if entry["stat"]["name"] in translation_table: # if it isn't in the translation table, ignore it
+                if self.data_dict["target"]["name"] is "user":
+                    user.update_stat_stage(translation_table[entry["stat"]["name"]], entry["change"])
+                else:
+                    target.update_stat_stage(translation_table[entry["stat"]["name"]], entry["change"])
+
+        if random.randint(0,100) <= int(self.data_dict["effect_chance"]) and "ailment" in self.meta_data: # if our effect actually fires:
+            effect = Effects.get_ailment(self.meta_data["ailment"]["name"])
+            if self.data_dict["target"]["name"] is "user":
+                user.apply_effect(effect)
+            else:
+                target.apply_effect(effect)
+
+
+
 
 
 class Swap(Move):
