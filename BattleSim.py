@@ -2,6 +2,7 @@ from abc import abstractmethod
 
 import Pokemon
 import Move
+import random
 
 '''
 Different Types of log statements:
@@ -25,6 +26,7 @@ Misc:
 
 
 '''
+
 
 class Player:
     session = None
@@ -64,6 +66,7 @@ class Player:
 
     def swap_request(self) -> Move.Swap:
         pass
+
 
 class HumanPlayer(Player):
     def __init__(self, name, inventory):
@@ -124,7 +127,8 @@ class HumanPlayer(Player):
         super(HumanPlayer, self).initalizeGame(session)
         return self.swap_request() # request our current pokemon
 
-import random
+
+
 class RandomPlayer(Player):
     def __init__(self, name):
         super(RandomPlayer, self).__init__(name, [Pokemon.get_random_pokemon() for i in range(6)])
@@ -248,11 +252,11 @@ class GameSession:
                 (move1.priority == move2.priority and
                  self.player1.getCurrentPokemon().stat["Speed"] > self.player2.getCurrentPokemon().stat["Speed"])):
                 self.notify_move(self.player1, move1)
-                dmg = self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+                dmg = self.player1.getCurrentPokemon().apply_damage(self.player2.getCurrentPokemon(), move1)
                 self.notify_damage(self.player2, dmg)
                 if not self.player2.getCurrentPokemon().is_dead():
                     self.notify_move(self.player2, move2)
-                    dmg = self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
+                    dmg = self.player2.getCurrentPokemon().apply_damage(self.player1.getCurrentPokemon(), move2)
                     self.notify_damage(self.player1, dmg)
                 else:
                     self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
@@ -261,11 +265,11 @@ class GameSession:
                     self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))
             else:
                 self.notify_move(self.player2, move2)
-                dmg = self.player2.getCurrentPokemon().do_damage(self.player1.getCurrentPokemon(), move2)
+                dmg = self.player2.getCurrentPokemon().apply_damage(self.player1.getCurrentPokemon(), move2)
                 self.notify_damage(self.player1, dmg)
                 if not self.player1.getCurrentPokemon().is_dead():
                     self.notify_move(self.player1, move1)
-                    dmg = self.player1.getCurrentPokemon().do_damage(self.player2.getCurrentPokemon(), move1)
+                    dmg = self.player1.getCurrentPokemon().apply_damage(self.player2.getCurrentPokemon(), move1)
                     self.notify_damage(self.player2, dmg)
                 else:
                     self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))

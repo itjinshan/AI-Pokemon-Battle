@@ -1,7 +1,7 @@
 import requests
 import random
 import Effects
-def getMoveFromAPI(ID:int=None, Name:str=None, URL:str=None) -> dict:
+def get_move_from_api(ID:int=None, Name:str=None, URL:str=None) -> dict:
     url = ""
     if ID is not None:
         url = "https://pokeapi.co/api/v2/move/"+str(ID)+"/"
@@ -18,7 +18,7 @@ class Move:
     def parse_data_from_string(self, p_str:str):
         pass
     def __init__(self, ParseString:str=None, ID:int=None, URL:str = None, Name:str = None):
-        self.data_dict = getMoveFromAPI(ID=ID, Name=Name, URL=URL)
+        self.data_dict = get_move_from_api(ID=ID, Name=Name, URL=URL)
         if self.data_dict is not None:
             self.name = self.data_dict["name"]
             self.power = self.data_dict["power"]
@@ -34,7 +34,7 @@ class Move:
         translation_table = {"attack":"Attack", "defense":"Defense", "special-attack":"sp_Attack",
                              "special-defense":"sp_Defense", "speed":"Speed"}
 
-        user.HP += user.get_stat("HP")*(int(self.meta_data["hp"])/100)
+        user.update_hp(percent=int(self.meta_data["healing"]))
 
         for entry in self.stat_change:
             if entry["stat"]["name"] in translation_table: # if it isn't in the translation table, ignore it
@@ -51,7 +51,9 @@ class Move:
                 target.apply_effect(effect)
 
 
-
+class Pass(Move):  # doesn't do anything, same as skipping the turn
+    def __init__(self):
+        self.priority = 0
 
 
 class Swap(Move):
