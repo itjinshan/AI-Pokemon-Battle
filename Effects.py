@@ -100,4 +100,3 @@ class Sleep(Effect):  # cannot move until effect subsides
         pass
 
 
-# TODO: there are a few popular moves that have special status effects that need to be implemented, hard code these

@@ -1,5 +1,6 @@
 import requests
 import random
+import Effects
 from Move import Move
 from Move import Swap
 from Move import Faint
@@ -121,16 +122,17 @@ class Pokemon:
     def reset_stat_stage(self):
         self.stat_stages = dict((key, 0) for key in self.stat.keys())
 
-    def apply_damage(self, other, move)->float:
+    def apply_damage(self, other, move)->(float, Move, Effects.Effect):
         # the modifier would be something this:
         #
 
         if (move is None
            or isinstance(move, Swap)
-           or isinstance(move, Faint)):
-            return 0.0
+           or isinstance(move, Faint)
+           or not self.can_play()):
+            return (0.0, move, None)
 
-        move.apply_effect(self, other)  # we do any heal or w/e at this point
+        effect = move.apply_effect(self, other)  # we do any heal or w/e at this point
         dmg = 0.0
 
         if move.power is not None:
@@ -142,7 +144,7 @@ class Pokemon:
                         / other.get_stat("Defense")) / 50 + 2) * GLOBAL_MOD * self.get_effect_stat("Damage_Output")
 
         other.HP -= dmg
-        return (dmg/other.get_stat("HP"))*100
+        return ((dmg/other.get_stat("HP"))*100, move, effect)
 
     def apply_effect(self, effect=None):
         if effect is not None:
@@ -167,8 +169,8 @@ class Pokemon:
             return int(frac_perc+lvl+10)
 
         def stat_calc(base, lvl, nature_mod):
-            frac_perc = int(((2 * base + PKM_IV + (PKM_EV / 4)) * lvl) / 100) + 5
-            return frac_perc * nature_mod
+            frac_perc = (((2 * base + PKM_IV + (PKM_EV / 4)) * lvl) / 100) + 5
+            return int(frac_perc * nature_mod)
 
         # 0 - Speed, 1 - special defense, 2 - special-attack, 3 - defense, 4 - attack, 5 - HP
         base_speed = int(self.data_dict["stats"][0]["base_stat"])

@@ -30,7 +30,7 @@ class Move:
             self.is_special = self.data_dict["damage_class"]["name"] == "special"
             self.stat_change = self.data_dict["stat_changes"]
 
-    def apply_effect(self, user, target):
+    def apply_effect(self, user, target)->Effects.Effect:
         translation_table = {"attack":"Attack", "defense":"Defense", "special-attack":"sp_Attack",
                              "special-defense":"sp_Defense", "speed":"Speed"}
 
@@ -51,11 +51,9 @@ class Move:
                 user.apply_effect(effect)
             else:
                 target.apply_effect(effect)
+            return effect
+        return None
 
-
-class Pass(Move):  # doesn't do anything, same as skipping the turn
-    def __init__(self):
-        self.priority = 0
 
 
 class Swap(Move):
@@ -78,3 +76,6 @@ print(d.power_points)
 print(d.type)
 print(d.priority)
 '''
+
+
+# TODO: there are a few popular moves that have special status effects that need to be implemented, hard code these

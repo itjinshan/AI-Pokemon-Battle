@@ -102,6 +102,7 @@ class HumanPlayer(Player):
 
     def swap_request(self)->Move.Swap:
         old_pokemon = self.currentPokemon
+        old_pokemon.reset_stat_stage()
         index = 1
         invalid_choice = True
         while invalid_choice:
@@ -156,6 +157,7 @@ class RandomPlayer(Player):
 
     def swap_request(self) -> Move.Swap:
         old_pokemon = self.getCurrentPokemon()
+        old_pokemon.reset_stat_stage()
         living = [pok for pok in self.inventory if not pok.is_dead()]
         new_pokemon = random.choice(living)
         self.currentPokemon = new_pokemon
@@ -163,9 +165,6 @@ class RandomPlayer(Player):
 
 
 class GameSession:
-    def performTurn(self):
-        pass
-
     def get_move_string(self, attacker, move, is_friendly)->str:
         r_str = ""
         if is_friendly: # we are the attacker
@@ -225,6 +224,43 @@ class GameSession:
     def getVictor(self):
         return self.winner
 
+    def performTurn(self):
+        # TODO: when a pokemon cannot play, we need to make sure it can't apply damage to it's oponent.
+
+        self.player1.getCurrentPokemon().apply_effect()  # update the effects either pokemon may have
+        self.player2.getCurrentPokemon().apply_effect()
+        move1 = self.player1.getTurn()  # retrieve the chosen move.
+        move2 = self.player2.getTurn()
+
+        if ((move1.priority > move2.priority) or
+                (move1.priority == move2.priority and
+                 self.player1.getCurrentPokemon().stat["Speed"] > self.player2.getCurrentPokemon().stat["Speed"])):
+            self.notify_move(self.player1, move1)
+            dmg, _, _ = self.player1.getCurrentPokemon().apply_damage(self.player2.getCurrentPokemon(), move1)
+            self.notify_damage(self.player2, dmg)
+            if not self.player2.getCurrentPokemon().is_dead():
+                self.notify_move(self.player2, move2)
+                dmg, _, _ = self.player2.getCurrentPokemon().apply_damage(self.player1.getCurrentPokemon(), move2)
+                self.notify_damage(self.player1, dmg)
+            else:
+                self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
+
+            if self.player1.getCurrentPokemon().is_dead():
+                self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))
+        else:
+            self.notify_move(self.player2, move2)
+            dmg, _, _ = self.player2.getCurrentPokemon().apply_damage(self.player1.getCurrentPokemon(), move2)
+            self.notify_damage(self.player1, dmg)
+            if not self.player1.getCurrentPokemon().is_dead():
+                self.notify_move(self.player1, move1)
+                dmg, _, _ = self.player1.getCurrentPokemon().apply_damage(self.player2.getCurrentPokemon(), move1)
+                self.notify_damage(self.player2, dmg)
+            else:
+                self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))
+
+            if self.player2.getCurrentPokemon().is_dead():
+                self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
+
     def runGame(self):
         self.notify_move(self.player1, self.player1.initalizeGame(self))
         self.notify_move(self.player2, self.player2.initalizeGame(self))
@@ -244,38 +280,7 @@ class GameSession:
                     self.winner = self.player1
                     return self.player1
                 self.notify_move(self.player2, result)
-
-            move1 = self.player1.getTurn()
-            move2 = self.player2.getTurn()
-
-            if ((move1.priority > move2.priority) or
-                (move1.priority == move2.priority and
-                 self.player1.getCurrentPokemon().stat["Speed"] > self.player2.getCurrentPokemon().stat["Speed"])):
-                self.notify_move(self.player1, move1)
-                dmg = self.player1.getCurrentPokemon().apply_damage(self.player2.getCurrentPokemon(), move1)
-                self.notify_damage(self.player2, dmg)
-                if not self.player2.getCurrentPokemon().is_dead():
-                    self.notify_move(self.player2, move2)
-                    dmg = self.player2.getCurrentPokemon().apply_damage(self.player1.getCurrentPokemon(), move2)
-                    self.notify_damage(self.player1, dmg)
-                else:
-                    self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
-
-                if self.player1.getCurrentPokemon().is_dead():
-                    self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))
-            else:
-                self.notify_move(self.player2, move2)
-                dmg = self.player2.getCurrentPokemon().apply_damage(self.player1.getCurrentPokemon(), move2)
-                self.notify_damage(self.player1, dmg)
-                if not self.player1.getCurrentPokemon().is_dead():
-                    self.notify_move(self.player1, move1)
-                    dmg = self.player1.getCurrentPokemon().apply_damage(self.player2.getCurrentPokemon(), move1)
-                    self.notify_damage(self.player2, dmg)
-                else:
-                    self.notify_move(self.player1, Move.Faint(self.player1.getCurrentPokemon()))
-
-                if self.player2.getCurrentPokemon().is_dead():
-                    self.notify_move(self.player2, Move.Faint(self.player2.getCurrentPokemon()))
+            self.performTurn()
             turn += 1
         return self.getVictor()
 
