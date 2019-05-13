@@ -83,6 +83,8 @@ class Pokemon:
         """
         self.moveList = list()
         self.effect_list = list()
+        self.stat_stages = dict((key, 0) for key in self.stat.keys())
+        self.stat = {}
         if ParseString is not None:
             self.parse_data_from_string(p_str=ParseString)
             return
@@ -92,9 +94,7 @@ class Pokemon:
             self.data_dict = get_pokemon_from_api(Name=Name)
         self.lvl = 1
         self.name = self.data_dict["name"]
-        self.stat = {}
         self.calculate_stats(1)
-        self.stat_stages = dict((key, 0) for key in self.stat.keys())
         self.HP = int(self.get_stat("HP"))
 
     def get_effect_stat(self, stat):
