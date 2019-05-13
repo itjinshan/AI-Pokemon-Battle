@@ -83,6 +83,8 @@ class Pokemon:
         """
         self.moveList = list()
         self.effect_list = list()
+        self.stat = {"HP":0, "Attack":0, "Defense":0, "sp_Attack":0, "sp_Defense":0, "Speed":0}
+        self.stat_stages = dict((key, 0) for key in self.stat.keys())
         if ParseString is not None:
             self.parse_data_from_string(p_str=ParseString)
             return
@@ -92,9 +94,7 @@ class Pokemon:
             self.data_dict = get_pokemon_from_api(Name=Name)
         self.lvl = 1
         self.name = self.data_dict["name"]
-        self.stat = {}
         self.calculate_stats(1)
-        self.stat_stages = dict((key, 0) for key in self.stat.keys())
         self.HP = int(self.get_stat("HP"))
 
     def get_effect_stat(self, stat):
@@ -221,3 +221,12 @@ poke = getRandomPokemon()
 print(poke.get_info_str())
 print("done.")
 '''
+p_str = ("[u'Solgaleo', u'L78']\nHP: 100.0% (342/342)\n"
+         "Ability: Full Metal Body / Item: Leftovers\n"
+         "Atk 259 / Def 212 / SpA 221 / SpD 184 / Spe 196\n"
+         "• Zen Headbutt\n"
+         "• Sunsteel Strike\n"
+         "• Flare Blitz\n"
+         "• Morning Sun")
+poke = Pokemon(ParseString=p_str)
+print(poke.get_info_str())

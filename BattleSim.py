@@ -234,7 +234,7 @@ class GameSession:
 
         if ((move1.priority > move2.priority) or
                 (move1.priority == move2.priority and
-                 self.player1.getCurrentPokemon().stat["Speed"] > self.player2.getCurrentPokemon().stat["Speed"])):
+                 self.player1.getCurrentPokemon().get_stat("Speed") > self.player2.getCurrentPokemon().get_stat("Speed"))):
             self.notify_move(self.player1, move1)
             dmg, _, _ = self.player1.getCurrentPokemon().apply_damage(self.player2.getCurrentPokemon(), move1)
             self.notify_damage(self.player2, dmg)
