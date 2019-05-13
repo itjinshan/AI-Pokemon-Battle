@@ -1,8 +1,21 @@
 import requests
+import random
+import Effects
 from Move import Move
+from Move import Swap
+from Move import Faint
 GLOBAL_MOD = 1.0
+MAX_MOVES_PER_POKEMON = 4
+MAX_CHOOSEABLE_POKEMON = 807
+PKM_IV = 31
+PKM_EV = 85
+STAT_STAGE_COEFFICIENTS = {-6:2/8, -5:2/7, -4:2/6, -3:2/5, -2:2/4, -1:2/3, 0:2/2,
+                           1:3/2, 2:4/2, 3:5/2, 4:6/2, 5:7/2, 6:8/2}
 
-def getPokemonFromAPI(ID:int=None, Name:str=None, URL:str = None) -> dict:
+TYPE_MOD_TABLE = dict() # TODO: add a lookup table for this
+
+
+def get_pokemon_from_api(ID:int=None, Name:str=None, URL:str = None) -> dict:
     url = ""
     if ID is not None:
         url = "https://pokeapi.co/api/v2/pokemon/"+str(ID)+"/"
@@ -15,8 +28,9 @@ def getPokemonFromAPI(ID:int=None, Name:str=None, URL:str = None) -> dict:
     url_d = requests.get(url)
     return url_d.json()
 
+
 class Pokemon:
-    def parse_data_from_string(self, p_str:str):
+    def parse_data_from_string(self, p_str: str):
         '''
 
         :param p_str: the parsable string, see info below
@@ -44,13 +58,14 @@ class Pokemon:
         '''
         lines = p_str.splitlines()
         tokens = lines[0].replace("u'", "").replace("'", "").replace("[","").replace("]","").split(", ")
-        self.data_dict = getPokemonFromAPI(Name=tokens[0].lower())
+        self.data_dict = get_pokemon_from_api(Name=tokens[0].lower())
+        self.name = tokens[0].lower()
         self.lvl = int(tokens[1].replace("L", ""))
         tokens = lines[1].split(" ")
         hpLine = tokens[2].replace("(", "").replace(")", "").split("/")
         self.HP = int(hpLine[0])
         self.stat["HP"] = int(hpLine[1])
-        #right now, we don't do anything with abilities or items, as there is no efficient way to get info about them
+        # right now, we don't do anything with abilities or items, as there is no efficient way to get info about them
         tokens = lines[3].split(" / ")
         self.stat["Attack"] = int(tokens[0].split(" ")[1])
         self.stat["Defense"] = int(tokens[1].split(" ")[1])
@@ -66,43 +81,143 @@ class Pokemon:
         :param parseString: A parsable string containing the information about this pokemon.
 
         """
+        self.moveList = list()
+        self.effect_list = list()
         if ParseString is not None:
             self.parse_data_from_string(p_str=ParseString)
-            self.moveList = list()
             return
         if ID is not None:
-            self.data_dict = getPokemonFromAPI(ID=ID)
+            self.data_dict = get_pokemon_from_api(ID=ID)
         elif Name is not None:
-            self.data_dict = getPokemonFromAPI(Name=Name)
-        self.lvl = 0
-        # We save the data_dict so that we can easily access relent information about the pokemon in the future.
-        # Next, we must initialize our pokemon's stats, for the sake of simplicity, these will be stored as ints
+            self.data_dict = get_pokemon_from_api(Name=Name)
+        self.lvl = 1
+        self.name = self.data_dict["name"]
         self.stat = {}
-        # 0 - Speed, 1 - special defense, 2 - special-attack, 3 - defense, 4 - attack, 5 - HP
-        self.stat["Attack"] = self.data_dict["stats"][4]["base_stat"]
-        self.stat["Defense"] = self.data_dict["stats"][3]["base_stat"]
-        self.stat["HP"] = self.data_dict["stats"][5]["base_stat"]
-        self.stat["Speed"] = self.data_dict["stats"][0]["base_stat"]
-        self.stat["sp_Defense"] = self.data_dict["stats"][1]["base_stat"]
-        self.stat["sp_Attack"] = self.data_dict["stats"][2]["base_stat"]
-        self.HP = self.stat["HP"]  # We initialize our running health with the base hp stat
-        self.moveList = list()
-        '''
-        for x in self.data_dict["moves"]: # right now, we pull all possible learned moves from the api
-            if x["version_group_details"][0]["level_learned_at"] <= self.lvl:
-                self.moveList.append(Move(URL=x["move"]["url"]))'''
+        self.calculate_stats(1)
+        self.stat_stages = dict((key, 0) for key in self.stat.keys())
+        self.HP = int(self.get_stat("HP"))
 
-    def add_move(self, parseString:str=None, ID:int=None, Name:str=None, URL:str=None):
-        self.moveList.append(Move(Name=Name, ID=ID, URL=URL))
+    def get_effect_stat(self, stat):
+        stat_coef = 1.0
+        for effect in self.effect_list:
+            stat_coef *= effect.stat_effects[stat]
+        return stat_coef
 
-    def do_damage(self, other, move):
+    def can_play(self)->bool:
+        for effect in self.effect_list:
+            if effect.block_move():
+                return False
+        return True
+
+    def add_move(self, ParseString:str=None, ID:int=None, Name:str=None, URL:str=None):
+        self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
+
+    def get_stat(self, stat):
+        return self.stat[stat]*STAT_STAGE_COEFFICIENTS[self.stat_stages[stat]]*self.get_effect_stat(stat)
+
+    def update_stat_stage(self, stat, value):
+        self.stat_stages[stat] += value
+        self.stat_stages[stat] = min(max(self.stat_stages[stat], -6), 6)  # clamp the value between 6 and -6
+
+    def reset_stat_stage(self):
+        self.stat_stages = dict((key, 0) for key in self.stat.keys())
+
+    def apply_damage(self, other, move)->(float, Move, Effects.Effect):
         # the modifier would be something this:
         #
-        move.applyEffects(other)
-        dmg = (((2*self.lvl/5 + 2)*move.power*self.stat["Attack"]/other.stat["Defense"])/50 + 2) * GLOBAL_MOD
+
+        if (move is None
+           or isinstance(move, Swap)
+           or isinstance(move, Faint)
+           or not self.can_play()):
+            return (0.0, move, None)
+
+        effect = move.apply_effect(self, other)  # we do any heal or w/e at this point
+        dmg = 0.0
+
+        if move.power is not None:
+            if move.is_special:
+                dmg = (((2 * self.lvl / 5 + 2) * move.power * self.get_stat("sp_Attack")
+                        / other.get_stat("sp_Defense")) / 50 + 2) * GLOBAL_MOD * self.get_effect_stat("Damage_Output")
+            else:
+                dmg = (((2*self.lvl/5 + 2) * move.power * self.get_stat("Attack")
+                        / other.get_stat("Defense")) / 50 + 2) * GLOBAL_MOD * self.get_effect_stat("Damage_Output")
+
         other.HP -= dmg
+        return ((dmg/other.get_stat("HP"))*100, move, effect)
+
+    def apply_effect(self, effect=None):
+        if effect is not None:
+            effect.target(self)
+            self.effect_list.append(effect)
+        for effect in self.effect_list:
+            effect.update_effect()
+
+    def update_hp(self, percent=None, points=None):
+        if points is not None:
+            self.HP += points
+            self.HP = min(self.HP, self.get_stat("HP"))
+        elif percent is not None:
+            points = self.get_stat("HP")*(percent/100)
+            self.HP = min(self.HP+points, self.get_stat("HP"))
+        else:
+            pass
+
+    def calculate_stats(self, nature_mod):
+        def hp_calc(base, lvl):
+            frac_perc = ((2*base+PKM_IV+(PKM_EV/4))*lvl)/100
+            return int(frac_perc+lvl+10)
+
+        def stat_calc(base, lvl, nature_mod):
+            frac_perc = (((2 * base + PKM_IV + (PKM_EV / 4)) * lvl) / 100) + 5
+            return int(frac_perc * nature_mod)
+
+        # 0 - Speed, 1 - special defense, 2 - special-attack, 3 - defense, 4 - attack, 5 - HP
+        base_speed = int(self.data_dict["stats"][0]["base_stat"])
+        base_sp_defense = int(self.data_dict["stats"][1]["base_stat"])
+        base_sp_attack = int(self.data_dict["stats"][2]["base_stat"])
+        base_defense = int(self.data_dict["stats"][3]["base_stat"])
+        base_attack = int(self.data_dict["stats"][4]["base_stat"])
+        base_hp = int(self.data_dict["stats"][5]["base_stat"])
+
+        self.stat["Attack"] = stat_calc(base_attack, self.lvl, 1)
+        self.stat["Defense"] = stat_calc(base_defense, self.lvl, 1)
+        self.stat["HP"] = hp_calc(base_hp, self.lvl)
+        self.stat["Speed"] = stat_calc(base_speed, self.lvl, 1)
+        self.stat["sp_Defense"] = stat_calc(base_sp_defense, self.lvl, 1)
+        self.stat["sp_Attack"] = stat_calc(base_sp_attack, self.lvl, 1)
+        self.HP = self.stat["HP"]
 
     def is_dead(self):
         return self.HP <= 0
-a = Pokemon(ID=1)
+
+    def get_info_str(self):
+        r_str = "[u'"+self.name+"', u'L"+str(self.lvl)+"']\n"
+        r_str +="HP: "+str((self.HP/self.stat["HP"])*100)+"% ("+str(self.HP)+"/"+str(self.stat["HP"])+")\n"
+        r_str +="Ability:\n"
+        r_str +=("Atk "+str(self.stat["Attack"])+" / Def "+str(self.stat["Defense"]) +
+                 " / SpA "+str(self.stat["sp_Attack"])+" / SpD "+str(self.stat["sp_Defense"]) +
+                 " / Spe "+str(self.stat["Speed"])+"\n")
+        for move in self.moveList:
+            r_str+= "• "+move.name+"\n"
+        return r_str
+
+
+def assign_random_moves(pokemon):
+    possible_move_list = pokemon.data_dict["moves"]
+    for i in range(min(MAX_MOVES_PER_POKEMON, len(possible_move_list))):
+        move = random.choice(possible_move_list)
+        pokemon.add_move(URL=move["move"]["url"])
+
+
+def get_random_pokemon() -> Pokemon:
+    n_poke = Pokemon(ID=random.randint(1, MAX_CHOOSEABLE_POKEMON))
+    assign_random_moves(n_poke)
+    n_poke.lvl = random.randint(1, 100)
+    n_poke.calculate_stats(1)
+    return n_poke
+'''
+poke = getRandomPokemon()
+print(poke.get_info_str())
 print("done.")
+'''
