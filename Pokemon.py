@@ -1,6 +1,7 @@
 import requests
 import random
 import Effects
+import csv
 from Move import Move
 from Move import Swap
 from Move import Faint
@@ -8,11 +9,28 @@ GLOBAL_MOD = 1.0
 MAX_MOVES_PER_POKEMON = 4
 MAX_CHOOSEABLE_POKEMON = 807
 PKM_IV = 31
-PKM_EV = 85
+PKM_EV = 85  # taken from the pokemon github repository
 STAT_STAGE_COEFFICIENTS = {-6:2/8, -5:2/7, -4:2/6, -3:2/5, -2:2/4, -1:2/3, 0:2/2,
-                           1:3/2, 2:4/2, 3:5/2, 4:6/2, 5:7/2, 6:8/2}
+                           1:3/2, 2:4/2, 3:5/2, 4:6/2, 5:7/2, 6:8/2}  # taken from bulbapedia
+def load_type_table():  # this will return a 2d list of values corresponding to each type
+    ret_list = list()
+    with open("type_csv.csv") as file:
+        data = csv.reader(file, delimiter=',')  # we need the sig, otherwise we also get ï»¿
+        return [[float(j) for j in row] for row in data]
+        #return data
 
-TYPE_MOD_TABLE = dict() # TODO: add a lookup table for this
+TYPE_MOD_TABLE = load_type_table()
+# https://bulbapedia.bulbagarden.net/wiki/Type, rows are attacking, columns are defending
+
+TYPE_TRANSLATION_TABLE = {"normal":0,"fighting":1,
+                  "flying":2,"poison":3,
+                  "ground":4,"rock":5,
+                  "bug":6,"ghost":7,
+                  "steel":8,"fire":9,
+                  "water":10,"grass":11,
+                  "electric":12,"psychic":13,
+                  "ice":14,"dragon":15,
+                  "dark":16,"fairy":17}
 
 
 def get_pokemon_from_api(ID:int=None, Name:str=None, URL:str = None) -> dict:
@@ -72,6 +90,7 @@ class Pokemon:
         self.stat["sp_Attack"] = int(tokens[2].split(" ")[1])
         self.stat["sp_Defense"] = int(tokens[3].split(" ")[1])
         self.stat["Speed"] = int(tokens[4].split(" ")[1])
+        self.type = self.data_dict["types"][0]["type"]["name"]
         for s in lines[4:]:
             self.add_move(Name=s.replace("• ", "").lower().replace(" ", "-"))
 
@@ -83,7 +102,7 @@ class Pokemon:
         """
         self.moveList = list()
         self.effect_list = list()
-        self.stat = {"HP":0, "Attack":0, "Defense":0, "sp_Attack":0, "sp_Defense":0, "Speed":0}
+        self.stat = {"HP": 0, "Attack": 0, "Defense": 0, "sp_Attack": 0, "sp_Defense": 0, "Speed": 0}
         self.stat_stages = dict((key, 0) for key in self.stat.keys())
         if ParseString is not None:
             self.parse_data_from_string(p_str=ParseString)
@@ -96,6 +115,7 @@ class Pokemon:
         self.name = self.data_dict["name"]
         self.calculate_stats(1)
         self.HP = int(self.get_stat("HP"))
+        self.type = self.data_dict["types"][0]["type"]["name"]
 
     def get_effect_stat(self, stat):
         stat_coef = 1.0
@@ -130,21 +150,24 @@ class Pokemon:
            or isinstance(move, Swap)
            or isinstance(move, Faint)
            or not self.can_play()):
-            return (0.0, move, None)
+            return 0.0, move, None
 
         effect = move.apply_effect(self, other)  # we do any heal or w/e at this point
         dmg = 0.0
 
-        if move.power is not None:
+        if move.power is not None:  # formula provided by Bulbapedia
+            mod = (TYPE_MOD_TABLE[TYPE_TRANSLATION_TABLE[self.type]][TYPE_TRANSLATION_TABLE[other.type]]
+                   * (1.5 if move.type == self.type else 1.0))  # Type * STAB
             if move.is_special:
                 dmg = (((2 * self.lvl / 5 + 2) * move.power * self.get_stat("sp_Attack")
                         / other.get_stat("sp_Defense")) / 50 + 2) * GLOBAL_MOD * self.get_effect_stat("Damage_Output")
             else:
                 dmg = (((2*self.lvl/5 + 2) * move.power * self.get_stat("Attack")
                         / other.get_stat("Defense")) / 50 + 2) * GLOBAL_MOD * self.get_effect_stat("Damage_Output")
+            dmg *= mod
 
         other.HP -= dmg
-        return ((dmg/other.get_stat("HP"))*100, move, effect)
+        return min((dmg/other.get_stat("HP"))*100, 100.0), move, effect
 
     def apply_effect(self, effect=None):
         if effect is not None:
@@ -221,6 +244,7 @@ poke = getRandomPokemon()
 print(poke.get_info_str())
 print("done.")
 '''
+'''
 p_str = ("[u'Solgaleo', u'L78']\nHP: 100.0% (342/342)\n"
          "Ability: Full Metal Body / Item: Leftovers\n"
          "Atk 259 / Def 212 / SpA 221 / SpD 184 / Spe 196\n"
@@ -230,3 +254,4 @@ p_str = ("[u'Solgaleo', u'L78']\nHP: 100.0% (342/342)\n"
          "• Morning Sun")
 poke = Pokemon(ParseString=p_str)
 print(poke.get_info_str())
+'''
