@@ -1,6 +1,7 @@
 import requests
 import random
 import Effects
+import csv
 from Move import Move
 from Move import Swap
 from Move import Faint
@@ -11,9 +12,19 @@ PKM_IV = 31
 PKM_EV = 85  # taken from the pokemon github repository
 STAT_STAGE_COEFFICIENTS = {-6:2/8, -5:2/7, -4:2/6, -3:2/5, -2:2/4, -1:2/3, 0:2/2,
                            1:3/2, 2:4/2, 3:5/2, 4:6/2, 5:7/2, 6:8/2}  # taken from bulbapedia
+def load_type_table():  # this will return a 2d list of values corresponding to each type
+    with open("type_csv.csv") as csvfile:
 
-TYPE_TRANSLATION_TABLE = {}  # https://bulbapedia.bulbagarden.net/wiki/Type
-TYPE_MOD_TABLE = dict() # TODO: add a lookup table for this
+TYPE_TRANSLATION_TABLE = # https://bulbapedia.bulbagarden.net/wiki/Type, rows are attacking, columns are defending
+TYPE_MOD_TABLE = {"normal":0,"flight":1,
+                  "flying":2,"poison":3,
+                  "ground":4,"rock":5,
+                  "bug":6,"ghost":7,
+                  "steel":8,"fire":9,
+                  "water":10,"grass":11,
+                  "electric":12,"psychic":13,
+                  "ice":14,"dragon":15,
+                  "dark":16,"fairy":17}
 
 
 def get_pokemon_from_api(ID:int=None, Name:str=None, URL:str = None) -> dict:
@@ -224,6 +235,7 @@ poke = getRandomPokemon()
 print(poke.get_info_str())
 print("done.")
 '''
+'''
 p_str = ("[u'Solgaleo', u'L78']\nHP: 100.0% (342/342)\n"
          "Ability: Full Metal Body / Item: Leftovers\n"
          "Atk 259 / Def 212 / SpA 221 / SpD 184 / Spe 196\n"
@@ -233,3 +245,4 @@ p_str = ("[u'Solgaleo', u'L78']\nHP: 100.0% (342/342)\n"
          "• Morning Sun")
 poke = Pokemon(ParseString=p_str)
 print(poke.get_info_str())
+'''
