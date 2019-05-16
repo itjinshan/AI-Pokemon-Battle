@@ -19,7 +19,8 @@ def load_type_table():  # this will return a 2d list of values corresponding to 
         return [[float(j) for j in row] for row in data]
         #return data
 
-TYPE_MOD_TABLE = load_type_table()# https://bulbapedia.bulbagarden.net/wiki/Type, rows are attacking, columns are defending
+TYPE_MOD_TABLE = load_type_table()
+# https://bulbapedia.bulbagarden.net/wiki/Type, rows are attacking, columns are defending
 
 TYPE_TRANSLATION_TABLE = {"normal":0,"fighting":1,
                   "flying":2,"poison":3,
@@ -101,7 +102,7 @@ class Pokemon:
         """
         self.moveList = list()
         self.effect_list = list()
-        self.stat = {"HP":0, "Attack":0, "Defense":0, "sp_Attack":0, "sp_Defense":0, "Speed":0}
+        self.stat = {"HP": 0, "Attack": 0, "Defense": 0, "sp_Attack": 0, "sp_Defense": 0, "Speed": 0}
         self.stat_stages = dict((key, 0) for key in self.stat.keys())
         if ParseString is not None:
             self.parse_data_from_string(p_str=ParseString)
@@ -149,7 +150,7 @@ class Pokemon:
            or isinstance(move, Swap)
            or isinstance(move, Faint)
            or not self.can_play()):
-            return (0.0, move, None)
+            return 0.0, move, None
 
         effect = move.apply_effect(self, other)  # we do any heal or w/e at this point
         dmg = 0.0
@@ -166,7 +167,7 @@ class Pokemon:
             dmg *= mod
 
         other.HP -= dmg
-        return ((dmg/other.get_stat("HP"))*100, move, effect)
+        return min((dmg/other.get_stat("HP"))*100, 100.0), move, effect
 
     def apply_effect(self, effect=None):
         if effect is not None:
