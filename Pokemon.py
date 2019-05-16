@@ -12,7 +12,7 @@ PKM_EV = 85  # taken from the pokemon github repository
 STAT_STAGE_COEFFICIENTS = {-6:2/8, -5:2/7, -4:2/6, -3:2/5, -2:2/4, -1:2/3, 0:2/2,
                            1:3/2, 2:4/2, 3:5/2, 4:6/2, 5:7/2, 6:8/2}  # taken from bulbapedia
 
-TYPE_TRANSLATION_TABLE = {}  # taken from https://www.math.miami.edu/~jam/azure/compendium/typechart-printable.htm
+TYPE_TRANSLATION_TABLE = {}  # https://bulbapedia.bulbagarden.net/wiki/Type
 TYPE_MOD_TABLE = dict() # TODO: add a lookup table for this
 
 
@@ -73,7 +73,7 @@ class Pokemon:
         self.stat["sp_Attack"] = int(tokens[2].split(" ")[1])
         self.stat["sp_Defense"] = int(tokens[3].split(" ")[1])
         self.stat["Speed"] = int(tokens[4].split(" ")[1])
-        self.type = [int(entry) for entry in self.data_dict["types"]]
+        self.type = self.data_dict["types"][0]["type"]["name"]
         for s in lines[4:]:
             self.add_move(Name=s.replace("• ", "").lower().replace(" ", "-"))
 
@@ -98,7 +98,7 @@ class Pokemon:
         self.name = self.data_dict["name"]
         self.calculate_stats(1)
         self.HP = int(self.get_stat("HP"))
-        self.type = self.data_dict
+        self.type = self.data_dict["types"][0]["type"]["name"]
 
     def get_effect_stat(self, stat):
         stat_coef = 1.0
