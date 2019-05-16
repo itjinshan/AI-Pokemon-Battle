@@ -21,7 +21,7 @@ def load_type_table():  # this will return a 2d list of values corresponding to 
 
 TYPE_MOD_TABLE = load_type_table()# https://bulbapedia.bulbagarden.net/wiki/Type, rows are attacking, columns are defending
 
-TYPE_TRANSLATION_TABLE = {"normal":0,"flight":1,
+TYPE_TRANSLATION_TABLE = {"normal":0,"fighting":1,
                   "flying":2,"poison":3,
                   "ground":4,"rock":5,
                   "bug":6,"ghost":7,
