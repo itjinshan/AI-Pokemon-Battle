@@ -130,6 +130,10 @@ class Pokemon:
         return True
 
     def add_move(self, ParseString:str=None, ID:int=None, Name:str=None, URL:str=None):
+        if len(Name) > 12:
+            if Name[0: 12] == "Hidden-Power":
+                self.moveList.append(Move(ParseString=ParseString, Name='Hidden-Power', ID=ID, URL=URL))
+            self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
         self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
 
     def get_stat(self, stat):
