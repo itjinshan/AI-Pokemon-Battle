@@ -21,7 +21,7 @@ class MoveTree:
         :param data_list: Take data in list format
         :return: Parse a tree from it
         """
-        self.root = GameNode(data_list.pop(0))
+        self.root = MoveNode(data_list.pop(0))
         for elem in data_list:
             self.parse_subtree(elem, self.root)
 
@@ -29,7 +29,7 @@ class MoveTree:
         # base case
         if type(data_list) is tuple:
             # make connections
-            leaf_node = GameNode(data_list[0])
+            leaf_node = MoveNode(data_list[0])
             leaf_node.parent = parent
             parent.addChild(leaf_node)
             # if we're at a leaf, set the value
@@ -38,7 +38,7 @@ class MoveTree:
             return
 
         # recursive case
-        tree_node = GameNode(data_list.pop(0))
+        tree_node = MoveNode(data_list.pop(0))
         # make connections
         tree_node.parent = parent
         parent.addChild(tree_node)
@@ -122,6 +122,4 @@ class AlphaBeta:
     def getUtility(self, node):
         assert node is not None
         return node.value
-
-
     
