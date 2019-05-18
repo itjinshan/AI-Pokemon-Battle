@@ -46,8 +46,13 @@ def get_pokemon_from_api(ID:int=None, Name:str=None, URL:str = None) -> dict:
         url = URL
     else:
         return None
-    url_d = requests.get(url)
-    return url_d.json()
+
+    try:
+        url_d = requests.get(url)
+        return url_d.json()
+    except:
+        print("Could not open url "+url)
+        return None
 
 
 class Pokemon:
@@ -133,11 +138,10 @@ class Pokemon:
         return True
 
     def add_move(self, ParseString:str=None, ID:int=None, Name:str=None, URL:str=None):
-        if len(Name) > 12:
-            if Name[0: 12] == "Hidden-Power":
-                self.moveList.append(Move(ParseString=ParseString, Name='Hidden-Power', ID=ID, URL=URL))
+        if "hidden power" in Name.lower() or "hidden-power" in Name.lower():
+            self.moveList.append(Move(ParseString=ParseString, Name='hidden-power', ID=ID, URL=URL))
+        else:
             self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
-        self.moveList.append(Move(ParseString=ParseString, Name=Name, ID=ID, URL=URL))
 
     def get_stat(self, stat):
         return self.stat[stat]*STAT_STAGE_COEFFICIENTS[self.stat_stages[stat]]*self.get_effect_stat(stat)
