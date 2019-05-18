@@ -46,8 +46,13 @@ def get_pokemon_from_api(ID:int=None, Name:str=None, URL:str = None) -> dict:
         url = URL
     else:
         return None
-    url_d = requests.get(url)
-    return url_d.json()
+
+    try:
+        url_d = requests.get(url)
+        return url_d.json()
+    except:
+        print("Could not open url "+url)
+        return None
 
 
 class Pokemon:
