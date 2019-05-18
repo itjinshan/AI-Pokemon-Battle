@@ -57,10 +57,10 @@ class Move:
 
 
 class Swap(Move):
-    def __init__(self, swaped_out, swaped_in):
+    def __init__(self, swapped_out, swapped_in):
         self.priority = 999
-        self.swaped_out = swaped_out
-        self.swaped_in = swaped_in
+        self.swapped_out = swapped_out
+        self.swapped_in = swapped_in
 
 
 class Faint(Move):
