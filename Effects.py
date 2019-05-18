@@ -4,7 +4,16 @@ import random
 
 
 def get_ailment(ailment):
-    pass
+    switch = {
+        "paralysis": (lambda: Paralysis()),
+        "burn": (lambda: Burn()),
+        "freeze": (lambda: Frozen()),
+        "poison": (lambda: Poison_light()),
+        "sleep": (lambda: Sleep())
+    }
+    if ailment in switch.keys():
+        return switch[ailment]()
+    return None
 
 
 class Effect:

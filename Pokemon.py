@@ -12,12 +12,15 @@ PKM_IV = 31
 PKM_EV = 85  # taken from the pokemon github repository
 STAT_STAGE_COEFFICIENTS = {-6:2/8, -5:2/7, -4:2/6, -3:2/5, -2:2/4, -1:2/3, 0:2/2,
                            1:3/2, 2:4/2, 3:5/2, 4:6/2, 5:7/2, 6:8/2}  # taken from bulbapedia
+
+
 def load_type_table():  # this will return a 2d list of values corresponding to each type
     ret_list = list()
     with open("type_csv.csv") as file:
         data = csv.reader(file, delimiter=',')  # we need the sig, otherwise we also get ï»¿
         return [[float(j) for j in row] for row in data]
         #return data
+
 
 TYPE_MOD_TABLE = load_type_table()
 # https://bulbapedia.bulbagarden.net/wiki/Type, rows are attacking, columns are defending
