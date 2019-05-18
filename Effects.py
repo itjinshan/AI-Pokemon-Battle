@@ -5,11 +5,11 @@ import random
 
 def get_ailment(ailment):
     switch = {
-        "paralysis": (lambda: Paralysis()),
-        "burn": (lambda: Burn()),
-        "freeze": (lambda: Frozen()),
-        "poison": (lambda: Poison_light()),
-        "sleep": (lambda: Sleep())
+        "paralysis": Paralysis,
+        "burn": Burn,
+        "freeze": Frozen,
+        "poison": Poison_light,
+        "sleep": Sleep
     }
     if ailment in switch.keys():
         return switch[ailment]()

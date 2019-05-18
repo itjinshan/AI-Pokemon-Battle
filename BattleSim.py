@@ -230,7 +230,6 @@ class GameSession:
         return self.winner
 
     def perform_turn(self):
-        # TODO: when a pokemon cannot play, we need to make sure it can't apply damage to it's oponent.
 
         self.player1.get_current_pokemon().apply_effect()  # update the effects either pokemon may have
         self.player2.get_current_pokemon().apply_effect()

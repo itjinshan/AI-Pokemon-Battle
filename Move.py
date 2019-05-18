@@ -1,6 +1,7 @@
 import requests
 import random
 import Effects
+
 def get_move_from_api(ID:int=None, Name:str=None, URL:str=None) -> dict:
     url = ""
     if ID is not None:
