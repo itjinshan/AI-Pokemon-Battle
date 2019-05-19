@@ -7,7 +7,10 @@ def get_move_from_api(ID:int=None, Name:str=None, URL:str=None) -> dict:
     if ID is not None:
         url = "https://pokeapi.co/api/v2/move/"+str(ID)+"/"
     elif Name is not None:
-        url = "https://pokeapi.co/api/v2/move/"+Name+"/"
+        if "hidden power" in Name.lower() or "hidden-power" in Name.lower():
+            url = "https://pokeapi.co/api/v2/move/"+'hidden-power'+"/"
+        else:
+            url = "https://pokeapi.co/api/v2/move/"+Name+"/"
     elif URL is not None:
         url = URL
     else:
