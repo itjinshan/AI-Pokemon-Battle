@@ -180,6 +180,31 @@ class Pokemon:
         other.HP -= dmg
         return min((dmg/other.get_stat("HP"))*100, 100.0), move, effect
 
+    def calculate_damage(self, other, move):
+        # the modifier would be something this:
+        #
+
+        if (move is None
+                or isinstance(move, Swap)
+                or isinstance(move, Faint)
+                or not self.can_play()):
+            return 0.0, move, None
+
+        dmg = 0.0
+
+        if move.power is not None:  # formula provided by Bulbapedia
+            mod = (TYPE_MOD_TABLE[TYPE_TRANSLATION_TABLE[self.type]][TYPE_TRANSLATION_TABLE[other.type]]
+                   * (1.5 if move.type == self.type else 1.0))  # Type * STAB
+            if move.is_special:
+                dmg = (((2 * self.lvl / 5 + 2) * move.power * self.get_stat("sp_Attack")
+                        / other.get_stat("sp_Defense")) / 50 + 2) * GLOBAL_MOD * self.get_effect_stat("Damage_Output")
+            else:
+                dmg = (((2 * self.lvl / 5 + 2) * move.power * self.get_stat("Attack")
+                        / other.get_stat("Defense")) / 50 + 2) * GLOBAL_MOD * self.get_effect_stat("Damage_Output")
+            dmg *= mod
+
+        return dmg, move
+
     def apply_effect(self, effect=None):
         if effect is not None:
             effect.target(self)
