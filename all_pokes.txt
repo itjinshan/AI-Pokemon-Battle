@@ -1,0 +1,117 @@
+Chansey
+Ability: Natural Cure
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Bold Nature
+- Seismic Toss
+- Toxic
+- Stealth Rock
+- Soft-Boiled
+
+Clefable
+Ability: Magic Guard
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Bold Nature
+- Moonblast
+- Soft-Boiled
+- Stealth Rock
+- Wish
+
+Excadrill
+Ability: Sand Rush
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Jolly Nature
+- Swords Dance
+- Earthquake
+- Iron Head
+- Rapid Spin
+
+Ferrothorn
+Ability: Iron Barbs
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+IVs: 0 Spe
+Sassy Nature
+- Spikes
+- Leech Seed
+- Gyro Ball
+- Power Whip
+
+Garchomp
+Ability: Rough Skin
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Jolly Nature
+- Stealth Rock
+- Earthquake
+- Stone Edge
+- Swords Dance
+
+Gliscor
+Ability: Poison Heal
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Jolly Nature
+- Stealth Rock
+- Earthquake
+- Toxic
+- Roost
+
+Greninja
+Ability: Protean
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Hasty Nature
+- Hydro Pump
+- Gunk Shot
+- Hidden Power Fire
+- Spikes
+
+Hawlucha
+Ability: Unburden
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Adamant Nature
+- Acrobatics
+- Swords Dance
+- High Jump Kick
+- Roost
+
+Heatran
+Ability: Flash Fire
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Modest Nature
+- Magma Storm
+- Earth Power
+- Taunt
+- Toxic
+
+Kartana
+Ability: Beast Boost
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Jolly Nature
+- Swords Dance
+- Leaf Blade
+- Sacred Sword
+- Giga Impact
+
+Kommo-o
+Ability: Bulletproof
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Hasty Nature
+- Stealth Rock
+- Clanging Scales
+- Close Combat
+- Poison Jab
+
+Magnezone
+Ability: Magnet Pull
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Modest Nature
+- Substitute
+- Thunderbolt
+- Flash Cannon
+- Hidden Power Fire
+
+Mimikyu
+Ability: Disguise
+EVs: 85 HP / 85 Atk / 85 Def / 85 SpA / 85 SpD / 85 Spe  
+Adamant Nature
+- Swords Dance
+- Shadow Sneak
+- Play Rough
+- Shadow Claw
