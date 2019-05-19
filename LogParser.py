@@ -11,6 +11,8 @@ class PerceptStruct:
         self.f_stat_changes = f_stat_changes
         self.h_stat_changes = h_stat_changes
         self.h_swap = h_swap
+        self.enemy_faint = False
+        self.friendly_faint = False
 
 
 class ParseItem:
@@ -85,8 +87,13 @@ class RE_SWAP(ParseItem):
         super().__init__()
         self.regex_str = r"(?P<player>['a-zA-Z0-9\- ]+)(?: sent out )(?P<name>['a-zA-Z\-]+)(?:!)"
     def modify_percept(self, percept: PerceptStruct):
-        percept.h_move = Move.Swap(None, self.parse_dict["name"])  # WARNING: I AM USING A STRING IN PLACE OF A POKEMON
-
+        percept.h_swap = Move.Swap(None, self.parse_dict["name"])  # WARNING: I AM USING A STRING IN PLACE OF A POKEMON
+class RE_FAINT(ParseItem):
+    def __init__(self):
+        super().__init__()
+        self.regex_str = r"(?P<player>['a-zA-Z0-9\- ]+)(?: sent out )(?P<name>['a-zA-Z\-]+)(?:!)"
+    def modify_percept(self, percept: PerceptStruct):
+        percept.h_swap = Move.Swap(None, self.parse_dict["name"])  # WARNING: I AM USING A STRING IN PLACE OF A POKEMON
 PARSER_LIST = [RE_H_DMG(),RE_F_DMG(),RE_H_MOVE(),RE_H_EFFECT(),RE_F_EFFECT(),RE_SWAP()]
 
 #RE_H_DMG = r"(?:\(The opposing )(?P<name>['a-zA-Z\-]+)(?: lost )(?P<number>[0-9]+(\.[0-9]+)?)(?:% of its health!\))"
