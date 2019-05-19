@@ -1,9 +1,10 @@
 import Pokemon
 import Move
+import LogParser
 import Effects
 
 class Agent:
-    def get_percepts(self):
+    def get_percepts(self, string):
         pass
     def choose_turn(self):
         pass
@@ -14,6 +15,14 @@ class OneTurnAgent(Agent):
         self.inventory = inventory
         self.opponent = opponent
         self.current_pokemon = current_pokemon
+
+    def get_percepts(self, string):
+        '''
+        Updates the internal model for our agent using the data in a string taken from the battle log.
+        :param string: data taken from the battle log which contains information about the last move
+        :return: None
+        '''
+        pass  # TODO: use our log parser to get the info we need
 
     def get_max_harm_move(self, pokemon:Pokemon.Pokemon =None)->(int, Move.Move):
         '''
